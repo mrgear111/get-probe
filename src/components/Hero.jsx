@@ -1,7 +1,65 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import AICodeTerminal from './AICodeTerminal'
 import './Hero.css'
+
+const Typewriter = ({ text, speed = 80 }) => {
+  const [displayedText, setDisplayedText] = useState('')
+  const [showCursor, setShowCursor] = useState(true)
+  const intervalRef = useRef(null)
+  const timeoutRef = useRef(null)
+
+  useEffect(() => {
+    let currentIndex = 0
+    let isTyping = false
+
+    const type = () => {
+      if (currentIndex < text.length) {
+        setDisplayedText(text.slice(0, currentIndex + 1))
+        currentIndex++
+        timeoutRef.current = setTimeout(type, speed)
+      } else {
+        isTyping = false
+        // Start blinking cursor after typing completes
+        intervalRef.current = setInterval(() => {
+          setShowCursor(prev => !prev)
+        }, 530)
+      }
+    }
+
+    const startTyping = () => {
+      setDisplayedText('')
+      setShowCursor(true)
+      currentIndex = 0
+      isTyping = true
+      timeoutRef.current = setTimeout(() => {
+        type()
+      }, 1000)
+    }
+
+    // Initial start
+    startTyping()
+
+    // Loop: restart every ~8 seconds (1s delay + typing time + 2s pause)
+    const loopInterval = setInterval(() => {
+      clearTimeout(timeoutRef.current)
+      clearInterval(intervalRef.current)
+      startTyping()
+    }, 4000)
+
+    return () => {
+      clearTimeout(timeoutRef.current)
+      clearInterval(intervalRef.current)
+      clearInterval(loopInterval)
+    }
+  }, [text, speed])
+
+  return (
+    <span className="typewriter-text">
+      {displayedText}
+      <span className={`typewriter-cursor ${showCursor ? 'visible' : ''}`}>_</span>
+    </span>
+  )
+}
 
 const Hero = () => {
   const heroRef = React.useRef(null)
@@ -14,14 +72,12 @@ const Hero = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
   
-  // Use window scroll directly for immediate response
   const { scrollY } = useScroll()
   
   // Calculate progress based on scroll position - starts immediately
-  // Use a smaller range so animation starts right away
   const scrollYProgress = useTransform(
     scrollY,
-    [0, viewportHeight * 0.6],
+    [0, viewportHeight * 0.8],
     [0, 1]
   )
 
@@ -31,99 +87,61 @@ const Hero = () => {
     mass: 0.5
   })
 
-  const textX = useTransform(smoothProgress, [0, 1], [0, -200])
-  const terminalX = useTransform(smoothProgress, [0, 1], [0, 200])
-  const heroOpacity = useTransform(smoothProgress, [0, 0.5, 1], [1, 0.5, 0])
-  const backgroundY = useTransform(smoothProgress, [0, 1], [0, 150])
+  // Hero disappears on scroll
+  const heroOpacity = useTransform(smoothProgress, [0, 0.5, 1], [1, 0.3, 0])
+  const heroY = useTransform(smoothProgress, [0, 1], [0, -100])
 
   return (
     <section className="hero" ref={heroRef}>
-      {/* Floating Orbs Background */}
-      <div className="floating-orbs hero-orbs">
-        <div className="orb orb-1"></div>
-        <div className="orb orb-2"></div>
-        <div className="orb orb-3"></div>
-        <div className="orb orb-4"></div>
-      </div>
+      {/* Subtle radial gradient background */}
+      <div className="hero-background-gradient"></div>
       
-      {/* Subtle abstract background with parallax */}
-      <motion.div 
-        className="hero-background"
-        style={{ y: backgroundY, opacity: heroOpacity }}
+      <motion.div
+        className="hero-container"
+        style={{ opacity: heroOpacity, y: heroY }}
       >
-        <div className="hero-bg-gradient" />
-      </motion.div>
-
-      <div className="hero-container">
         <div className="hero-content">
-          {/* Left Side - Text and CTA */}
-          <motion.div
-            className="hero-text-section"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            style={{ x: textX, opacity: heroOpacity }}
+          {/* Tagline */}
+          <motion.p
+            className="hero-tagline"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <motion.h1
-              className="hero-title"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              {/* Built to make you extraordinarily productive, */}
-              <br />
-              <span className="gradient-text">Probe is the browser that remembers you.</span>
-            </motion.h1>
+            Probe: because Chrome wasn't built for you.
+          </motion.p>
 
-            <motion.p
-              className="hero-tagline"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              Because Chrome wasn't built for you.
-            </motion.p>
-
-            <motion.p
-              className="hero-description"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              A smart, browser that remembers you and what you do,
-              understands how you work, and helps you pick up exactly where you left.
-            </motion.p>
-
-            <motion.div
-              className="hero-cta"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <button className="btn-download">
-                <i className="fas fa-download mr-2"></i>
-                Download for macOS
-              </button>
-              <button className="btn-secondary-hero">
-                Join Beta Waitlist
-              </button>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Side - Terminal */}
-          <motion.div
-            className="hero-terminal-section"
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            style={{ x: terminalX, opacity: heroOpacity }}
+          {/* Main Heading */}
+          <motion.h1
+            className="hero-title"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <div className="terminal-wrapper">
-              <AICodeTerminal compact={true} />
-            </div>
+            The browser that remembers you.
+          </motion.h1>
+
+          {/* Description */}
+          <motion.p
+            className="hero-description"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            Probe reimagines the way you browse — one that remembers your context, recalls what you were doing, and connects your work across tabs and time. Built for focus, privacy, and intelligence — all locally on your device.
+          </motion.p>
+
+          {/* Typing Line */}
+          <motion.div
+            className="hero-typing-line"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            <Typewriter text="> Launch your workspace " speed={80} />
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

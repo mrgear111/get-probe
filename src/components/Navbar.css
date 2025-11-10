@@ -9,7 +9,7 @@
 }
 
 .navbar-scrolled {
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(42, 42, 42, 0.5);
@@ -140,18 +140,18 @@
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 600;
-  color: #0a0a0a;
+  color: #000000;
   background: #ffffff;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3);
 }
 
 .navbar-download:hover {
   background: #f5f5f5;
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
 }
 
 .navbar-download i {
@@ -192,7 +192,7 @@
 .navbar-mobile-menu {
   overflow: hidden;
   border-top: 1px solid rgba(42, 42, 42, 0.5);
-  background: rgba(10, 10, 10, 0.95);
+  background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -221,8 +221,8 @@
 
 .navbar-mobile-link-active {
   color: #ffffff;
-  background: rgba(99, 102, 241, 0.1);
-  border-left: 3px solid #6366f1;
+  background: rgba(255, 107, 53, 0.1);
+  border-left: 3px solid #ff6b35;
 }
 
 .navbar-mobile-actions {
@@ -261,18 +261,18 @@
   padding: 12px 20px;
   font-size: 15px;
   font-weight: 600;
-  color: #0a0a0a;
+  color: #000000;
   background: #ffffff;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3);
 }
 
 .navbar-mobile-download:hover {
   background: #f5f5f5;
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
 }
 
 .navbar-mobile-download i {

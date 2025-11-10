@@ -11,17 +11,17 @@
 }
 
 :root {
-  --bg-primary: #0a0a0a;
+  --bg-primary: #000000;
   --bg-secondary: #111111;
   --bg-tertiary: #1a1a1a;
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
-  --accent-primary: #6366f1;
-  --accent-secondary: #8b5cf6;
-  --accent-tertiary: #ec4899;
+  --accent-primary: #ff6b35;
+  --accent-secondary: #ff8c42;
+  --accent-tertiary: #ffa500;
   --border-color: #2a2a2a;
-  --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-  --gradient-2: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+  --gradient-1: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa500 100%);
+  --gradient-2: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
 }
 
 html {
@@ -95,4 +95,3 @@ section * {
   backface-visibility: hidden;
   perspective: 1000px;
 }
-

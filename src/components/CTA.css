@@ -1,216 +1,128 @@
+/* CTA Section */
 .cta {
   position: relative;
-  padding: 160px 20px;
+  padding: 120px 24px;
   text-align: center;
+  background: var(--bg-primary);
   overflow: hidden;
 }
 
-/* CTA Floating Orbs */
-.cta-orbs {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.cta-orbs .orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.3;
-  animation: float 20s ease-in-out infinite;
-}
-
-.cta-orbs .orb-1 {
-  width: 380px;
-  height: 380px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  top: 15%;
-  left: 10%;
-  animation-delay: 0s;
-  animation-duration: 30s;
-}
-
-.cta-orbs .orb-2 {
-  width: 320px;
-  height: 320px;
-  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-  top: 55%;
-  right: 12%;
-  animation-delay: -8s;
-  animation-duration: 28s;
-}
-
-.cta-orbs .orb-3 {
-  width: 300px;
-  height: 300px;
-  background: linear-gradient(135deg, #ec4899 0%, #6366f1 100%);
-  bottom: 20%;
-  left: 20%;
-  animation-delay: -12s;
-  animation-duration: 32s;
-}
-
-.cta-orbs .orb-4 {
-  width: 340px;
-  height: 340px;
-  background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
-  top: 35%;
-  right: 28%;
-  animation-delay: -5s;
-  animation-duration: 35s;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(40px, -40px) scale(1.1);
-  }
-  50% {
-    transform: translate(-30px, 30px) scale(0.9);
-  }
-  75% {
-    transform: translate(30px, 40px) scale(1.05);
-  }
-}
-
-.cta-background {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.cta-gradient-orb {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 800px;
-  height: 800px;
-  background: var(--gradient-1);
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.3;
-  animation: ctaPulse 8s ease-in-out infinite;
-}
-
-@keyframes ctaPulse {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 0.5;
-  }
-}
-
+/* Inner Container */
 .cta-content {
   position: relative;
-  z-index: 1;
-  max-width: 800px;
+  z-index: 2;
+  max-width: 850px;
   margin: 0 auto;
 }
 
+/* Heading */
 .cta-title {
-  font-size: clamp(40px, 6vw, 64px);
+  font-size: clamp(42px, 6vw, 68px);
   font-weight: 800;
-  margin-bottom: 24px;
   line-height: 1.2;
   letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 28px;
+  position: relative;
 }
 
+/* Optional animated underline accent */
+.cta-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b35, #ffa500);
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* Gradient highlight text */
+.gradient-text {
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Description */
 .cta-description {
   font-size: 20px;
   color: var(--text-secondary);
-  margin-bottom: 40px;
-  line-height: 1.6;
+  margin: 32px 0 48px;
+  line-height: 1.7;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* Buttons Container */
 .cta-buttons {
   display: flex;
-  gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 48px;
+  gap: 20px;
 }
 
+/* Shared button styles */
 .btn-primary-large,
 .btn-secondary-large {
-  padding: 18px 36px;
+  padding: 18px 40px;
   font-size: 18px;
   font-weight: 600;
-  border-radius: 12px;
+  border-radius: 14px;
   border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 10px;
   transition: all 0.3s ease;
   font-family: inherit;
 }
 
+/* Primary Button */
 .btn-primary-large {
-  background: var(--gradient-1);
-  color: white;
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  background: linear-gradient(135deg, #ff6b35, #ff8c42, #ffa500);
+  color: #fff;
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.35);
 }
 
 .btn-primary-large:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.6);
+  transform: scale(1.05);
+  box-shadow: 0 10px 40px rgba(255, 107, 53, 0.6);
 }
 
+/* Secondary Button */
 .btn-secondary-large {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
 }
 
 .btn-secondary-large:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--accent-primary);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-primary, #ff8c42);
+  transform: scale(1.03);
 }
 
-.cta-features {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-  flex-wrap: wrap;
+/* SVG inside buttons */
+.btn-primary-large svg,
+.btn-secondary-large svg {
+  transition: transform 0.3s ease;
 }
 
-.cta-feature {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-secondary);
-  font-size: 16px;
+.btn-primary-large:hover svg,
+.btn-secondary-large:hover svg {
+  transform: translateX(4px);
 }
 
-.cta-feature-icon {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(99, 102, 241, 0.2);
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  border-radius: 50%;
-  color: var(--accent-primary);
-  font-weight: 600;
-  font-size: 12px;
-}
-
+/* Responsive */
 @media (max-width: 768px) {
   .cta {
     padding: 100px 20px;
@@ -227,18 +139,11 @@
   .cta-buttons {
     flex-direction: column;
     width: 100%;
+    gap: 16px;
   }
 
   .btn-primary-large,
   .btn-secondary-large {
     width: 100%;
-    justify-content: center;
-  }
-
-  .cta-features {
-    flex-direction: column;
-    gap: 16px;
   }
 }
-
-

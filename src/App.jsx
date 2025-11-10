@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Lenis from 'lenis'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import GradientReveal from './components/GradientReveal'
 import Features from './components/Features'
 import FeatureShowcase from './components/FeatureShowcase'
 import CTA from './components/CTA'
@@ -43,7 +42,6 @@ function App() {
       <Hero />
       {/* Spacer to push content below fixed hero */}
       <div style={{ height: '100vh' }} />
-      <GradientReveal />
       <Features />
       <FeatureShowcase />
       <CTA />
@@ -53,4 +51,3 @@ function App() {
 }
 
 export default App
-

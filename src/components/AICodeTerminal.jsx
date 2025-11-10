@@ -6,7 +6,7 @@ const AICodeTerminal = ({ compact = false }) => {
   const [currentLineIndex, setCurrentLineIndex] = useState(0)
 
   const codeLines = [
-    { type: 'command', text: '~/cursor/experiment_', showCursor: true },
+    { type: 'command', text: '~/probe/experiment_', showCursor: true },
     { type: 'output', text: 'Initializing Probe Memory Engine...', color: 'text-yellow-400' },
     { type: 'diff', text: 'const memory = new LocalMemoryEngine()', color: 'text-green-400', prefix: '+' },
     { type: 'diff', text: 'const oldHistory = chrome.history', color: 'text-red-400', prefix: '-' },
@@ -66,6 +66,7 @@ const AICodeTerminal = ({ compact = false }) => {
                 probe-terminal
               </span>
             </div>
+            <p className="text-[#a0a0a0] text-sm font-mono">cLick on the button to reset the terminal</p>
             <button
               onClick={resetTerminal}
               className="text-[#a0a0a0] hover:text-white transition-colors text-sm"
@@ -94,7 +95,7 @@ const AICodeTerminal = ({ compact = false }) => {
                         </span>
                       )}
                       {!line.prefix && line.type === 'command' && (
-                        <span className="text-[#6366f1]">$</span>
+                        <span className="text-[#ff6b35]">$</span>
                       )}
                       {!line.prefix && line.type === 'output' && (
                         <span className="text-[#a0a0a0]">→</span>
@@ -107,7 +108,7 @@ const AICodeTerminal = ({ compact = false }) => {
                       </span>
                       {line.showCursor && index === lines.length - 1 && (
                         <motion.span
-                          className="inline-block w-2 h-5 bg-[#6366f1] ml-1"
+                          className="inline-block w-2 h-5 bg-[#ff6b35] ml-1"
                           animate={{ opacity: [1, 0] }}
                           transition={{
                             duration: 0.8,
@@ -131,14 +132,6 @@ const AICodeTerminal = ({ compact = false }) => {
             )}
           </div>
         </div>
-
-        {/* Decorative elements - only show when not compact */}
-        {!compact && (
-          <>
-            <div className="absolute top-20 left-10 w-72 h-72 bg-[#6366f1]/10 rounded-full blur-3xl -z-10"></div>
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#8b5cf6]/10 rounded-full blur-3xl -z-10"></div>
-          </>
-        )}
       </motion.div>
     </div>
   )
