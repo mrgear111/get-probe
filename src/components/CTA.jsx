@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import EmailModal from './EmailModal'
 import './CTA.css'
 
 const CTA = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   return (
     <section className="cta">
       <div className="cta-content">
@@ -14,7 +17,10 @@ const CTA = () => {
           Join our beta waitlist and be among the first to experience browsing that remembers.
         </p>
         <div className="cta-buttons">
-          <button className="btn-primary-large">
+          <button 
+            className="btn-primary-large"
+            onClick={() => setIsModalOpen(true)}
+          >
             Join Beta Waitlist
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path
@@ -26,6 +32,10 @@ const CTA = () => {
               />
             </svg>
           </button>
+          <EmailModal 
+            isOpen={isModalOpen} 
+            onClose={() => setIsModalOpen(false)} 
+          />
           <button className="btn-secondary-large">
             Learn More
           </button>

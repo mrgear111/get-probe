@@ -40,7 +40,7 @@ const Navbar = () => {
 
   const stats = [
     { icon: 'fa-brands fa-linkedin', value: '12.5K' },
-    { icon: 'fa-brands fa-twitter', value: '26.3K' },
+    { icon: 'fa-brands fa-x-twitter', value: '26.3K' },
   ]
 
   return (

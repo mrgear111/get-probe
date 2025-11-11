@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion'
 import EmailModal from './EmailModal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBrain, faBook, faTerminal, faUsers, faGlobe } from '@fortawesome/free-solid-svg-icons'
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import './Hero.css'
 
 const BrowserPreview = () => {
@@ -9,7 +12,7 @@ const BrowserPreview = () => {
   const examples = [
     {
       title: 'Memory Recall',
-      icon: '🧠',
+      icon: <FontAwesomeIcon icon={faBrain} className="text-xl" />,
       prompt: 'Show me what I was working on yesterday',
       response: 'You were debugging a React performance issue. I found 3 Stack Overflow threads, the React docs on useMemo, and your notes from last week.',
       details: 'Context-aware intelligence • Local memory engine',
@@ -17,7 +20,7 @@ const BrowserPreview = () => {
     },
     {
       title: 'Smart Collections',
-      icon: '📚',
+      icon: <FontAwesomeIcon icon={faBook} className="text-xl" />,
       prompt: 'Organize my research tabs',
       response: 'I\'ve grouped your 12 tabs into: "TypeScript Learning" (5 tabs), "Portfolio Inspiration" (4 tabs), and "API Documentation" (3 tabs).',
       details: 'AI-powered organization • Auto-grouped by context',
@@ -33,7 +36,7 @@ const BrowserPreview = () => {
     },
     {
       title: 'Probe Spaces',
-      icon: '👥',
+      icon: <FontAwesomeIcon icon={faUsers} className="text-xl" />,
       prompt: 'Share this debugging session with my team',
       response: 'Sharing session created! Your team can now see your tabs, scroll together, and collaborate in real-time. Link copied.',
       details: 'Multiplayer browsing • Real-time collaboration',
@@ -59,7 +62,7 @@ const BrowserPreview = () => {
           <div className="control-dot maximize"></div>
         </div>
         <div className="window-title">
-          <span className="title-icon">🌐</span>
+          <span className="title-icon"><FontAwesomeIcon icon={faTerminal} className="text-xl" /></span>
           <span>Probe Browser</span>
         </div>
         <div className="window-status">
@@ -92,12 +95,12 @@ const BrowserPreview = () => {
             transition={{ duration: 0.3 }}
           >
             <div className="demo-prompt">
-              <div className="prompt-icon">💭</div>
+              <div className="prompt-icon"><FontAwesomeIcon icon={faTerminal} className="text-xl" /></div>
               <div className="prompt-text">{currentExample.prompt}</div>
             </div>
             
             <div className="demo-response">
-              <div className="response-icon">✨</div>
+              <div className="response-icon"><FontAwesomeIcon icon={faGlobe} className="text-xl" /></div>
               <div className="response-text">{currentExample.response}</div>
             </div>
 
@@ -176,7 +179,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <span className="badge-icon">🧠</span>
+              <span className="badge-icon"><FontAwesomeIcon icon={faBrain} className="text-xl" /></span>
               <span>Introducing Memory Web</span>
             </motion.div>
 
