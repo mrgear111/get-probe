@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion'
+import EmailModal from './EmailModal'
 import './Hero.css'
 
 const BrowserPreview = () => {
@@ -129,6 +130,7 @@ const BrowserPreview = () => {
 const Hero = () => {
   const heroRef = React.useRef(null)
   const [viewportHeight, setViewportHeight] = React.useState(800)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   
   React.useEffect(() => {
     setViewportHeight(window.innerHeight)
@@ -204,7 +206,10 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <button className="btn-primary">
+              <button 
+                className="btn-primary"
+                onClick={() => setIsModalOpen(true)}
+              >
                 Register for Early Access
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -226,6 +231,9 @@ const Hero = () => {
           </motion.div>
         </div>
       </motion.div>
+
+      {/* Email Modal */}
+      <EmailModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   )
 }
