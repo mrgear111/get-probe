@@ -1,0 +1,149 @@
+/* CTA Section */
+.cta {
+  position: relative;
+  padding: 120px 24px;
+  text-align: center;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+/* Inner Container */
+.cta-content {
+  position: relative;
+  z-index: 2;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+/* Heading */
+.cta-title {
+  font-size: clamp(42px, 6vw, 68px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+/* Optional animated underline accent */
+.cta-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b35, #ffa500);
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* Gradient highlight text */
+.gradient-text {
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Description */
+.cta-description {
+  font-size: 20px;
+  color: var(--text-secondary);
+  margin: 32px 0 48px;
+  line-height: 1.7;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Buttons Container */
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Shared button styles */
+.btn-primary-large,
+.btn-secondary-large {
+  padding: 18px 40px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+/* Primary Button */
+.btn-primary-large {
+  background: linear-gradient(135deg, #ff6b35, #ff8c42, #ffa500);
+  color: #fff;
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.35);
+}
+
+.btn-primary-large:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 40px rgba(255, 107, 53, 0.6);
+}
+
+/* Secondary Button */
+.btn-secondary-large {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(12px);
+}
+
+.btn-secondary-large:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-primary, #ff8c42);
+  transform: scale(1.03);
+}
+
+/* SVG inside buttons */
+.btn-primary-large svg,
+.btn-secondary-large svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-primary-large:hover svg,
+.btn-secondary-large:hover svg {
+  transform: translateX(4px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cta {
+    padding: 100px 20px;
+  }
+
+  .cta-title {
+    font-size: 36px;
+  }
+
+  .cta-description {
+    font-size: 18px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .btn-primary-large,
+  .btn-secondary-large {
+    width: 100%;
+  }
+}

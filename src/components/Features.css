@@ -1,0 +1,9 @@
+.features-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.features-section .max-w-7xl {
+  position: relative;
+  z-index: 2;
+}
