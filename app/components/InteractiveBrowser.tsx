@@ -24,6 +24,7 @@ export default function InteractiveBrowser() {
     const [isCommandBarOpen, setIsCommandBarOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const commandBarRef = useRef<HTMLDivElement>(null);
 
     // Mock Data
     const collections: Collection[] = [
@@ -50,15 +51,32 @@ export default function InteractiveBrowser() {
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, []);
 
+    // Click outside to close command bar
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (isCommandBarOpen && commandBarRef.current && !commandBarRef.current.contains(event.target as Node)) {
+                setIsCommandBarOpen(false);
+            }
+        };
+
+        if (isCommandBarOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isCommandBarOpen]);
+
     return (
         <div className="w-full h-full bg-[#0A0A0A] flex flex-col overflow-hidden relative font-sans text-zinc-300 selection:bg-blue-500/30">
             {/* --- Toolbar --- */}
-            <div className="h-12 bg-[#0A0A0A] border-b border-white/5 flex items-center px-4 gap-4 shrink-0">
+            <div className="h-12 bg-zinc-800/50 border-b border-white/5 flex items-center px-4 gap-4 shrink-0">
                 {/* Window Controls */}
-                <div className="flex gap-2 group">
-                    <div className="w-3 h-3 rounded-full bg-white/10 group-hover:bg-red-500/80 transition-colors"></div>
-                    <div className="w-3 h-3 rounded-full bg-white/10 group-hover:bg-yellow-500/80 transition-colors"></div>
-                    <div className="w-3 h-3 rounded-full bg-white/10 group-hover:bg-green-500/80 transition-colors"></div>
+                <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500/10"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/10"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500/10"></div>
                 </div>
 
                 {/* Navigation Controls */}
@@ -71,10 +89,10 @@ export default function InteractiveBrowser() {
                 {/* Address Bar */}
                 <div className="flex-1 flex justify-center">
                     <div
-                        className="bg-zinc-800/50 hover:bg-zinc-800 transition-colors px-4 py-1.5 rounded-md text-xs text-zinc-400 w-full max-w-md text-center flex items-center justify-center gap-2 cursor-text border border-transparent hover:border-zinc-700 group"
+                        className="bg-zinc-800/50 hover:bg-zinc-800 px-4 py-1.5 rounded-md text-xs text-zinc-400 w-full max-w-md text-center flex items-center justify-center gap-2 cursor-text border border-transparent hover:border-zinc-700 transition-colors"
                         onClick={() => setIsCommandBarOpen(true)}
                     >
-                        <svg className="w-3 h-3 text-zinc-500 group-hover:text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                        <svg className="w-3 h-3 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                         {activeTab === "dashboard" ? "probe://memory" : "localhost:3000"}
                     </div>
                 </div>
@@ -82,7 +100,7 @@ export default function InteractiveBrowser() {
                 {/* Right Actions */}
                 <div className="flex gap-3 items-center">
                     <button
-                        className={`p-1.5 rounded hover:bg-zinc-800 ${sidebarOpen ? 'text-blue-400 bg-blue-500/10' : 'text-zinc-500'}`}
+                        className={`p-1.5 rounded hover:bg-zinc-800 transition-colors ${sidebarOpen ? 'text-blue-400 bg-blue-500/10' : 'text-zinc-500'}`}
                         onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -116,10 +134,10 @@ export default function InteractiveBrowser() {
 
                                 <div className="text-xs font-bold text-zinc-600 uppercase tracking-wider mt-8 mb-4">Spaces</div>
                                 <div className="space-y-1">
-                                    <div className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-white/5 cursor-pointer text-xs text-zinc-500 hover:text-zinc-300">
+                                    <div className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-white/5 cursor-pointer text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
                                         <span className="text-lg leading-none">👥</span> Team Engineering
                                     </div>
-                                    <div className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-white/5 cursor-pointer text-xs text-zinc-500 hover:text-zinc-300">
+                                    <div className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-white/5 cursor-pointer text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
                                         <span className="text-lg leading-none">🎨</span> Design Huddle
                                     </div>
                                 </div>
@@ -142,11 +160,11 @@ export default function InteractiveBrowser() {
                             <div className="mb-12">
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider">Resume Activity</h3>
-                                    <button className="text-xs text-blue-400 hover:text-blue-300">View Timeline</button>
+                                    <button className="text-xs text-blue-400 hover:text-blue-300 transition-colors">View Timeline</button>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     {recentActivity.map(item => (
-                                        <div key={item.id} className="bg-zinc-900/30 border border-white/5 p-5 rounded-2xl hover:border-white/10 hover:bg-zinc-900/50 transition-all cursor-pointer group">
+                                        <div key={item.id} className="bg-zinc-900/30 border border-white/5 p-5 rounded-2xl hover:border-white/10 hover:bg-zinc-900/50 transition-all cursor-pointer">
                                             <div className="flex justify-between items-start mb-3">
                                                 <div className={`p-2 rounded-lg ${item.type === 'debug' ? 'bg-red-500/10 text-red-400' : item.type === 'research' ? 'bg-blue-500/10 text-blue-400' : 'bg-purple-500/10 text-purple-400'}`}>
                                                     {item.type === 'debug' && <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>}
@@ -155,7 +173,7 @@ export default function InteractiveBrowser() {
                                                 </div>
                                                 <span className="text-[10px] text-zinc-600">{item.time}</span>
                                             </div>
-                                            <h4 className="text-sm font-semibold text-zinc-200 mb-1 group-hover:text-white">{item.title}</h4>
+                                            <h4 className="text-sm font-semibold text-zinc-200 mb-1">{item.title}</h4>
                                             <p className="text-xs text-zinc-500 line-clamp-2">{item.desc}</p>
                                         </div>
                                     ))}
@@ -193,6 +211,7 @@ export default function InteractiveBrowser() {
                 {isCommandBarOpen && (
                     <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-start justify-center pt-32">
                         <motion.div
+                            ref={commandBarRef}
                             initial={{ opacity: 0, scale: 0.95, y: -20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: -20 }}
@@ -218,26 +237,26 @@ export default function InteractiveBrowser() {
                             <div className="p-2">
                                 <div className="text-[10px] font-bold text-zinc-600 px-2 py-1 uppercase tracking-wider">Suggestions</div>
                                 <div className="space-y-1">
-                                    <div className="flex items-center justify-between px-2 py-2 rounded hover:bg-blue-600/20 hover:text-blue-200 text-zinc-400 cursor-pointer group transition-colors">
+                                    <div className="flex items-center justify-between px-2 py-2 rounded hover:bg-blue-600/20 hover:text-blue-200 text-zinc-400 cursor-pointer transition-colors">
                                         <div className="flex items-center gap-3">
                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
                                             <span className="text-sm">Create new Workspace</span>
                                         </div>
-                                        <span className="text-[10px] text-zinc-600 group-hover:text-blue-300">Workspace</span>
+                                        <span className="text-[10px] text-zinc-600">Workspace</span>
                                     </div>
-                                    <div className="flex items-center justify-between px-2 py-2 rounded hover:bg-blue-600/20 hover:text-blue-200 text-zinc-400 cursor-pointer group transition-colors">
+                                    <div className="flex items-center justify-between px-2 py-2 rounded hover:bg-blue-600/20 hover:text-blue-200 text-zinc-400 cursor-pointer transition-colors">
                                         <div className="flex items-center gap-3">
                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                             <span className="text-sm">Search History for "React"</span>
                                         </div>
-                                        <span className="text-[10px] text-zinc-600 group-hover:text-blue-300">History</span>
+                                        <span className="text-[10px] text-zinc-600">History</span>
                                     </div>
-                                    <div className="flex items-center justify-between px-2 py-2 rounded hover:bg-blue-600/20 hover:text-blue-200 text-zinc-400 cursor-pointer group transition-colors">
+                                    <div className="flex items-center justify-between px-2 py-2 rounded hover:bg-blue-600/20 hover:text-blue-200 text-zinc-400 cursor-pointer transition-colors">
                                         <div className="flex items-center gap-3">
                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                                             <span className="text-sm">Share Session with Team</span>
                                         </div>
-                                        <span className="text-[10px] text-zinc-600 group-hover:text-blue-300">Spaces</span>
+                                        <span className="text-[10px] text-zinc-600">Spaces</span>
                                     </div>
                                 </div>
                             </div>

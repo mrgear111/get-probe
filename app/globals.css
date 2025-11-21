@@ -42,3 +42,15 @@ body {
 .animate-marquee2 {
   animation: marquee2 25s linear infinite;
 }
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

@@ -12,14 +12,14 @@ const LocalMemoryVisual = () => (
             {/* Outer Glass Cube */}
             <motion.div
                 className="w-40 h-40 border border-blue-400/30 bg-blue-500/5 backdrop-blur-sm rounded-2xl shadow-[0_0_60px_rgba(59,130,246,0.2)] flex items-center justify-center relative z-10"
-                animate={{ rotateX: [0, 360], rotateY: [0, 360] }}
+                // animate={{ rotateX: [0, 360], rotateY: [0, 360] }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 style={{ transformStyle: "preserve-3d" }}
             >
                 {/* Inner Core */}
                 <motion.div
                     className="w-20 h-20 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl shadow-[0_0_40px_rgba(34,211,238,0.6)] flex items-center justify-center"
-                    animate={{ rotateX: [360, 0], rotateY: [360, 0] }} // Counter-rotate
+                    // animate={{ rotateX: [360, 0], rotateY: [360, 0] }} // Counter-rotate
                     transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
                 >
                     <svg className="w-10 h-10 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -322,7 +322,7 @@ const features = [
     }
 ];
 
-const FeatureSection = ({ feature, index, setFocusedIndex }: { feature: any, index: number, setFocusedIndex: (i: number) => void }) => {
+const FeatureSection = ({ feature, index, setFocusedIndex, isLast }: { feature: any, index: number, setFocusedIndex: (i: number) => void, isLast: boolean }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { margin: "-20% 0px -20% 0px" });
 
@@ -332,18 +332,38 @@ const FeatureSection = ({ feature, index, setFocusedIndex }: { feature: any, ind
         }
     }, [isInView, index, setFocusedIndex]);
 
+    const folderName = feature.title.toLowerCase().replace(/\s+/g, '-').replace(/[&()]/g, '');
+
     return (
-        <div ref={ref} className="h-[400px] flex items-center py-10">
-            <div className="max-w-md">
-                <div className="flex items-center gap-3 mb-4">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-zinc-800 text-zinc-400 font-mono text-sm border border-white/5 shadow-inner">
-                        {index + 1}
-                    </span>
-                    <h3 className="text-2xl font-bold text-white">{feature.title}</h3>
+        <div ref={ref} className="py-6 font-mono text-sm relative min-h-[300px]">
+            <div className="flex gap-5 items-start">
+                {/* Tree connector lines */}
+                <div className="flex flex-col items-center text-zinc-700/50 pt-1 min-h-[180px]">
+                    <span className="text-zinc-600 leading-none text-base">{isLast ? "└──" : "├──"}</span>
+                    {!isLast && (
+                        <span className="text-zinc-800/30 text-sm leading-[1.2] flex-1 mt-1">│</span>
+                    )}
                 </div>
-                <p className="text-base text-zinc-400 leading-relaxed">
-                    {feature.description}
-                </p>
+                
+                {/* Folder structure content */}
+                <div className="flex-1">
+                    {/* Feature folder */}
+                    <div className="text-zinc-300 mb-3 text-base">
+                        <span className="text-zinc-500">Probe Memory/</span>
+                        <span className="text-zinc-300 font-medium">{folderName}/</span>
+                    </div>
+                    
+                    {/* Description subfolder */}
+                    <div className="ml-6 space-y-2">
+                        <div className="text-zinc-500 text-sm">
+                            <span className="text-zinc-600">└──</span>
+                            <span className="text-zinc-500 ml-2">description/</span>
+                        </div>
+                        <div className="ml-7 text-zinc-400 text-sm leading-relaxed max-w-lg">
+                            {feature.description}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
@@ -380,7 +400,7 @@ export default function MemoryWebShowcase() {
                     <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_var(--x,50%)_var(--y,50%),rgba(255,255,255,0.1)_0%,transparent_50%)] rounded-3xl"></div>
 
                     {/* Left: Scrolling Text */}
-                    <div className="w-full md:w-1/2 p-12 border-r border-white/5 md:rounded-l-3xl relative z-10">
+                    <div className="w-full md:w-1/2 p-10 border-r border-white/5 md:rounded-l-3xl relative z-10 bg-zinc-950/20">
                         <div className="flex flex-col">
                             {features.map((feature, index) => (
                                 <FeatureSection
@@ -388,6 +408,7 @@ export default function MemoryWebShowcase() {
                                     feature={feature}
                                     index={index}
                                     setFocusedIndex={setFocusedIndex}
+                                    isLast={index === features.length - 1}
                                 />
                             ))}
                         </div>
