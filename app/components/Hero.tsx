@@ -82,8 +82,8 @@ export default function Hero() {
           </div>
 
           <h1 className="text-7xl md:text-9xl font-bold tracking-tighter text-white mb-8 leading-[0.9]">
-            AI browser that  <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40">modern engineering.</span>
+            Browser that learns <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40">how you build.</span>
           </h1>
 
           <p className="text-xl text-zinc-400 max-w-2xl mb-10 leading-relaxed">

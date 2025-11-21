@@ -84,13 +84,14 @@ export default function Navbar() {
                     >
                         <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center gap-2">
-                                <div className="w-12 h-12 flex items-center justify-center">
+                                <div className="w-12 h-12 flex items-center justify-center relative">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-cyan-500/30 to-pink-500/30 blur-xl opacity-60 rounded-full"></div>
                                     <Image
                                         src="/probe.png"
                                         alt="Probe Logo"
                                         width={48}
                                         height={48}
-                                        className="w-full h-full object-contain"
+                                        className="w-full h-full object-contain relative z-10"
                                         unoptimized
                                     />
                                 </div>

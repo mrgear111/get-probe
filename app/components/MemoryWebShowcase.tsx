@@ -366,7 +366,7 @@ export default function MemoryWebShowcase() {
                 {/* Header */}
                 <div className="mb-24 text-center">
                     <h2 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tighter">
-                        World's first <span className="text-zinc-500">memory web</span> browser.
+                        Introducing the <span className="text-zinc-500">MEMORY WEB</span>
                     </h2>
                     <p className="text-sm text-zinc-500 font-mono tracking-wide">
                         Used by 10k+ developers daily.
