@@ -59,14 +59,50 @@ export default function ProbeSpaces() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
                     {/* Left Column: Visual (The Multiplayer Browser) */}
-                    <div className="relative perspective-[2000px] group order-2 lg:order-1">
+                    <div className="relative perspective-[2000px] group order-2 lg:order-1 h-[500px] flex items-center justify-center">
+
+                        {/* Holographic Floor Grid */}
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-[200%] bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)] transform rotate-x-[60deg] translate-y-[200px] pointer-events-none -z-10"></div>
+
+                        {/* Floating User Nodes (External) */}
+                        <motion.div
+                            className="absolute -left-12 top-20 z-30 hidden lg:flex flex-col items-center gap-2"
+                            animate={{ y: [0, -10, 0] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                            <div className="w-12 h-12 rounded-full border-2 border-pink-500 bg-zinc-900 p-1 shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+                                <div className="w-full h-full rounded-full bg-pink-500/20 flex items-center justify-center text-pink-500 font-bold">SA</div>
+                            </div>
+                            <div className="px-2 py-1 rounded bg-zinc-900 border border-pink-500/30 text-[10px] text-pink-400 font-mono">Sarah (PM)</div>
+                            {/* Connection Beam */}
+                            <svg className="absolute left-full top-6 w-24 h-20 pointer-events-none overflow-visible">
+                                <path d="M0 0 C 40 0, 40 60, 100 60" fill="none" stroke="#EC4899" strokeWidth="2" strokeDasharray="4 4" className="opacity-50" />
+                                <circle cx="100" cy="60" r="3" fill="#EC4899" className="animate-pulse" />
+                            </svg>
+                        </motion.div>
+
+                        <motion.div
+                            className="absolute -right-8 bottom-32 z-30 hidden lg:flex flex-col items-center gap-2"
+                            animate={{ y: [0, 10, 0] }}
+                            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        >
+                            <div className="w-12 h-12 rounded-full border-2 border-green-500 bg-zinc-900 p-1 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                                <div className="w-full h-full rounded-full bg-green-500/20 flex items-center justify-center text-green-500 font-bold">DE</div>
+                            </div>
+                            <div className="px-2 py-1 rounded bg-zinc-900 border border-green-500/30 text-[10px] text-green-400 font-mono">Dev (Eng)</div>
+                            {/* Connection Beam */}
+                            <svg className="absolute right-full top-6 w-24 h-20 pointer-events-none overflow-visible transform scale-x-[-1]">
+                                <path d="M0 0 C 40 0, 40 -40, 100 -40" fill="none" stroke="#10B981" strokeWidth="2" strokeDasharray="4 4" className="opacity-50" />
+                                <circle cx="100" cy="-40" r="3" fill="#10B981" className="animate-pulse" />
+                            </svg>
+                        </motion.div>
 
                         {/* 3D Tilted Browser Window */}
                         <motion.div
-                            className="relative bg-[#0A0A0A]/90 border border-white/10 rounded-xl shadow-2xl overflow-hidden transform-style-3d backdrop-blur-xl"
-                            initial={{ rotateY: 10, rotateX: 5 }}
-                            whileHover={{ rotateY: 5, rotateX: 2, scale: 1.01 }}
-                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="relative w-full max-w-lg bg-[#0A0A0A]/90 border border-white/10 rounded-xl shadow-2xl overflow-hidden transform-style-3d backdrop-blur-xl"
+                            initial={{ rotateY: -15, rotateX: 5, z: 0 }}
+                            whileHover={{ rotateY: -5, rotateX: 0, z: 50 }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
                         >
                             {/* Spotlight Overlay on Border */}
                             <motion.div
@@ -97,19 +133,15 @@ export default function ProbeSpaces() {
                                     <span className="text-white">space/design-review</span>
                                 </div>
 
-                                {/* Avatars */}
-                                <div className="flex -space-x-1.5">
-                                    {[1, 2, 3].map((i) => (
-                                        <div key={i} className={`w-6 h-6 rounded-full border-2 border-[#0A0A0A] flex items-center justify-center text-[8px] font-bold text-white relative z-${10 - i} shadow-lg`} style={{ backgroundColor: i === 1 ? '#3B82F6' : i === 2 ? '#EC4899' : '#10B981' }}>
-                                            {i === 1 ? 'YO' : i === 2 ? 'SA' : 'DE'}
-                                            {i === 2 && <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-green-500 border-2 border-[#0A0A0A] rounded-full"></div>}
-                                        </div>
-                                    ))}
+                                {/* Live Indicator */}
+                                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                                    <span className="text-[8px] font-bold text-green-400 uppercase tracking-wider">LIVE</span>
                                 </div>
                             </div>
 
                             {/* Browser Content: Collaborative Web App */}
-                            <div className="h-[400px] bg-[#09090B] relative flex">
+                            <div className="h-[350px] bg-[#09090B] relative flex">
 
                                 {/* App Sidebar (Navigation) */}
                                 <div className="w-12 border-r border-white/5 bg-zinc-900/50 flex flex-col items-center py-4 gap-4">
@@ -133,7 +165,7 @@ export default function ProbeSpaces() {
                                             <p className="text-zinc-500 text-[10px]">Marketing • Updated just now</p>
                                         </div>
                                         <div className="flex gap-2">
-                                            <div className="px-2 py-1 rounded bg-blue-600 text-[10px] text-white font-medium shadow-[0_0_10px_rgba(37,99,235,0.3)]">Deploy</div>
+                                            <div className="px-2 py-1 rounded bg-blue-600 text-[10px] text-white font-medium shadow-[0_0_10px_rgba(37,99,235,0.3)] animate-pulse">Deploying...</div>
                                         </div>
                                     </div>
 

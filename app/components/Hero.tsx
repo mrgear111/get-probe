@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useModal } from "../context/ModalContext";
 
 import InteractiveBrowser from "./InteractiveBrowser";
 
@@ -9,6 +10,7 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
+  const { openModal } = useModal();
 
   // Tilt State
   const [rotateX, setRotateX] = useState(0);
@@ -80,7 +82,7 @@ export default function Hero() {
           </div>
 
           <h1 className="text-7xl md:text-9xl font-bold tracking-tighter text-white mb-8 leading-[0.9]">
-            The browser for <br />
+            AI browser that  <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40">modern engineering.</span>
           </h1>
 
@@ -90,8 +92,11 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <button className="px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_50px_-10px_rgba(255,255,255,0.2)]">
-              Download for macOS
+            <button
+              onClick={openModal}
+              className="px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_50px_-10px_rgba(255,255,255,0.2)]"
+            >
+              Register for Early Access
             </button>
             <button className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-full font-medium hover:bg-white/10 transition-all backdrop-blur-md hover:border-white/20">
               Read the Manifesto

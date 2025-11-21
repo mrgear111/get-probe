@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
+import { ModalProvider } from "./context/ModalContext";
+import RegisterModal from "./components/RegisterModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,11 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Probe | The Developer's Browser",
-  description: "Redefining what a browser can be for developers. Built for creating, debugging, and productivity.",
+  title: "Probe | The Browser for Modern Engineering",
+  description: "A high-performance browser built for developers. Native devtools, AI debugging, and zero-config workflow integrations.",
 };
-
-import Navbar from "./components/Navbar";
 
 export default function RootLayout({
   children,
@@ -27,10 +28,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="bg-[#050505] text-white antialiased selection:bg-blue-500/30"
       >
-        <Navbar />
-        {children}
+        <ModalProvider>
+          <Navbar />
+          <main className="flex flex-col min-h-screen">
+            {children}
+          </main>
+          <RegisterModal />
+        </ModalProvider>
       </body>
     </html>
   );

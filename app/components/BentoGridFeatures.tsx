@@ -69,12 +69,13 @@ export default function BentoGridFeatures() {
 
                             <div className="relative z-10 flex flex-col items-center">
                                 {/* Logo */}
-                                <div className="w-32 h-32 mb-8 relative">
-                                    <div className="absolute inset-0 bg-white blur-2xl opacity-20 rounded-full"></div>
-                                    <svg className="w-full h-full text-white relative z-10" viewBox="0 0 100 100" fill="currentColor">
-                                        <path d="M50 10C27.9 10 10 27.9 10 50s17.9 40 40 40 40-17.9 40-40S72.1 10 50 10zm0 72c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z" />
-                                        <path d="M50 30c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20zm0 32c-6.6 0-12-5.4-12-12s5.4-12 12-12 12 5.4 12 12-5.4 12-12 12z" />
-                                    </svg>
+                                <div className="w-32 h-32 mb-8 relative flex items-center justify-center">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-cyan-500/20 to-pink-500/20 blur-3xl opacity-50 rounded-full"></div>
+                                    <img
+                                        src="/probe.png"
+                                        alt="Probe Logo"
+                                        className="w-full h-full object-contain relative z-10"
+                                    />
                                 </div>
 
                                 <h3 className="text-5xl font-bold text-white mb-8 tracking-tight">probe-browser</h3>
