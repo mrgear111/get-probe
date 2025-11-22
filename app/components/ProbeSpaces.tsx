@@ -73,7 +73,7 @@ export default function ProbeSpaces() {
                         <div className="mb-12">
                             <h2 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tighter leading-[0.9]">
                                 PROBE <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">SPACES</span>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-violet-400">SPACES</span>
                             </h2>
                             <div className="h-px w-full bg-gradient-to-r from-blue-500/50 to-transparent mb-6"></div>
                             <p className="text-zinc-400 text-lg leading-relaxed">
@@ -117,75 +117,134 @@ export default function ProbeSpaces() {
                     </div>
 
                     {/* Right Panel - Visual */}
-                    <div className="lg:col-span-7 bg-[#030303] relative overflow-hidden flex items-center justify-center p-8 md:p-16 min-h-[500px]">
+                    <div className="lg:col-span-7 bg-[#030303] relative overflow-hidden flex items-center justify-center p-8 md:p-16 min-h-[600px] perspective-[2000px]">
                         {/* Grid Background */}
                         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
-                        {/* Browser Mockup */}
-                        <div className="relative w-full max-w-lg rounded-xl overflow-hidden border border-white/10 bg-[#0A0A0A] shadow-2xl aspect-[4/3] z-10 group">
-                            {/* Browser Chrome */}
-                            <div className="h-10 bg-zinc-900 border-b border-white/5 flex items-center px-4 gap-2">
-                                <div className="flex gap-1.5">
-                                    <div className="w-3 h-3 rounded-full bg-zinc-800 border border-white/5"></div>
-                                    <div className="w-3 h-3 rounded-full bg-zinc-800 border border-white/5"></div>
-                                    <div className="w-3 h-3 rounded-full bg-zinc-800 border border-white/5"></div>
+                        {/* Ambient Glow */}
+                        <div className="absolute inset-0 bg-radial-gradient from-blue-900/20 via-transparent to-transparent opacity-50"></div>
+
+                        {/* 3D Container */}
+                        <motion.div
+                            className="relative w-full max-w-lg aspect-[4/3] preserve-3d"
+                            initial={{ rotateX: 20, rotateY: -15, rotateZ: 5 }}
+                            animate={{
+                                rotateX: [20, 25, 20],
+                                rotateY: [-15, -20, -15],
+                                y: [0, -20, 0]
+                            }}
+                            transition={{
+                                duration: 8,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                            style={{ transformStyle: 'preserve-3d' }}
+                        >
+                            {/* Layer 1: Back Glow/Shadow */}
+                            <div className="absolute inset-0 bg-blue-500/20 blur-3xl -z-10 transform translate-z-[-50px]"></div>
+
+                            {/* Layer 2: Browser Window Base */}
+                            <div className="absolute inset-0 bg-[#0A0A0A] rounded-xl border border-white/10 shadow-2xl overflow-hidden transform translate-z-[0px]">
+                                {/* Browser Chrome */}
+                                <div className="h-10 bg-zinc-900/90 border-b border-white/5 flex items-center px-4 gap-2">
+                                    <div className="flex gap-1.5">
+                                        <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/30"></div>
+                                        <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/30"></div>
+                                        <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/30"></div>
+                                    </div>
+                                    <div className="ml-4 flex-1 max-w-md h-6 bg-black/50 rounded flex items-center px-3 text-[10px] text-zinc-600 font-mono border border-white/5">
+                                        probe://spaces/multiplayer-demo
+                                    </div>
                                 </div>
-                                <div className="ml-4 flex-1 max-w-md h-6 bg-black/50 rounded flex items-center px-3 text-[10px] text-zinc-600 font-mono border border-white/5">
-                                    probe://spaces/shared-session-id
-                                </div>
-                                <div className="flex -space-x-2">
-                                    <div className="w-6 h-6 rounded-full bg-blue-600 border-2 border-zinc-900 flex items-center justify-center text-[8px] font-bold text-white">YO</div>
-                                    <div className="w-6 h-6 rounded-full bg-purple-600 border-2 border-zinc-900 flex items-center justify-center text-[8px] font-bold text-white">AL</div>
+                                {/* Code Editor Background */}
+                                <div className="p-6 font-mono text-xs text-zinc-500 space-y-1 opacity-30">
+                                    <div className="flex gap-4"><span className="text-zinc-700">01</span> <span>import React from 'react';</span></div>
+                                    <div className="flex gap-4"><span className="text-zinc-700">02</span> <span>import &#123; motion &#125; from 'framer-motion';</span></div>
+                                    <div className="flex gap-4"><span className="text-zinc-700">03</span> <span></span></div>
+                                    <div className="flex gap-4"><span className="text-zinc-700">04</span> <span>export default function Space() &#123;</span></div>
+                                    <div className="flex gap-4"><span className="text-zinc-700">05</span> <span className="pl-4">return (</span></div>
+                                    <div className="flex gap-4"><span className="text-zinc-700">06</span> <span className="pl-8">&lt;div className="space-container"&gt;</span></div>
+                                    <div className="flex gap-4"><span className="text-zinc-700">07</span> <span className="pl-12">&lt;h1&gt;Hello World&lt;/h1&gt;</span></div>
+                                    <div className="flex gap-4"><span className="text-zinc-700">08</span> <span className="pl-8">&lt;/div&gt;</span></div>
+                                    <div className="flex gap-4"><span className="text-zinc-700">09</span> <span className="pl-4">);</span></div>
+                                    <div className="flex gap-4"><span className="text-zinc-700">10</span> <span>&#125;</span></div>
                                 </div>
                             </div>
 
-                            {/* Browser Content */}
-                            <div className="p-8 font-mono text-sm text-zinc-400 relative h-full bg-[#050505]">
-                                <div className="space-y-4 max-w-md mx-auto opacity-50 group-hover:opacity-80 transition-opacity duration-700">
-                                    <div className="h-4 w-3/4 bg-zinc-800 rounded"></div>
-                                    <div className="h-32 bg-zinc-900/50 rounded border border-zinc-800 p-4 relative">
-                                        <div className="absolute top-4 left-4 right-4 space-y-2">
-                                            <div className="h-2 w-full bg-zinc-800 rounded"></div>
-                                            <div className="h-2 w-5/6 bg-zinc-800 rounded"></div>
-                                            <div className="h-2 w-4/6 bg-zinc-800 rounded"></div>
+                            {/* Layer 3: Active UI Elements (Floating) */}
+                            <div className="absolute inset-0 transform translate-z-[40px] pointer-events-none">
+                                {/* Floating Card 1 */}
+                                <motion.div
+                                    className="absolute top-20 left-10 w-48 h-32 bg-zinc-900/90 backdrop-blur-md border border-white/10 rounded-lg p-4 shadow-xl"
+                                    animate={{ y: [0, 10, 0] }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                >
+                                    <div className="w-8 h-8 bg-blue-500/20 rounded mb-3 flex items-center justify-center">
+                                        <div className="w-4 h-4 bg-blue-500 rounded-sm"></div>
+                                    </div>
+                                    <div className="h-2 w-24 bg-zinc-700 rounded mb-2"></div>
+                                    <div className="h-2 w-16 bg-zinc-800 rounded"></div>
+                                </motion.div>
 
-                                            {/* Highlight Effect */}
-                                            <Highlight x={0} y={0} width={200} delay={2} />
+                                {/* Floating Card 2 */}
+                                <motion.div
+                                    className="absolute bottom-20 right-10 w-40 h-40 bg-zinc-900/90 backdrop-blur-md border border-white/10 rounded-lg p-4 shadow-xl"
+                                    animate={{ y: [0, -15, 0] }}
+                                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                                >
+                                    <div className="w-full h-20 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded mb-3 border border-white/5"></div>
+                                    <div className="flex gap-2">
+                                        <div className="w-6 h-6 rounded-full bg-zinc-800"></div>
+                                        <div className="space-y-1">
+                                            <div className="h-1.5 w-12 bg-zinc-700 rounded"></div>
+                                            <div className="h-1.5 w-8 bg-zinc-800 rounded"></div>
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="h-20 bg-zinc-900/30 rounded border border-zinc-800"></div>
-                                        <div className="h-20 bg-zinc-900/30 rounded border border-zinc-800"></div>
-                                    </div>
-                                </div>
-
-                                {/* Animated Cursors */}
-                                <Cursor
-                                    color="#3B82F6"
-                                    label="You"
-                                    x={[50, 150, 150, 200, 50]}
-                                    y={[100, 120, 200, 150, 100]}
-                                    delay={0}
-                                />
-                                <Cursor
-                                    color="#A855F7"
-                                    label="Alex"
-                                    x={[200, 100, 50, 150, 200]}
-                                    y={[200, 150, 100, 120, 200]}
-                                    delay={1}
-                                />
+                                </motion.div>
                             </div>
 
-                            {/* Connection Status Overlay */}
-                            <div className="absolute bottom-4 right-4 px-3 py-1 bg-zinc-900/90 backdrop-blur border border-zinc-800 rounded flex items-center gap-3 text-[9px] text-zinc-400 font-mono uppercase tracking-wider shadow-lg">
-                                <div className="flex items-center gap-1.5">
-                                    <span className="w-1 h-1 rounded-full bg-green-500 animate-pulse"></span>
-                                    <span>Connected</span>
-                                </div>
-                                <div className="h-3 w-px bg-zinc-700"></div>
-                                <span>24ms</span>
+                            {/* Layer 4: Multiplayer Cursors (Highest Z) */}
+                            <div className="absolute inset-0 transform translate-z-[80px] pointer-events-none">
+                                {/* Cursor 1: You (Blue) */}
+                                <motion.div
+                                    className="absolute"
+                                    animate={{
+                                        x: [100, 200, 150, 100],
+                                        y: [150, 100, 200, 150]
+                                    }}
+                                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                                >
+                                    <svg className="w-4 h-4 text-blue-500 fill-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]" viewBox="0 0 24 24"><path d="M0 0L10 24L14 14L24 10L0 0Z" /></svg>
+                                    <div className="ml-3 px-2 py-0.5 bg-blue-500 text-white text-[10px] font-bold rounded-full shadow-lg whitespace-nowrap">You</div>
+                                </motion.div>
+
+                                {/* Cursor 2: Alex (Purple) */}
+                                <motion.div
+                                    className="absolute"
+                                    animate={{
+                                        x: [300, 250, 350, 300],
+                                        y: [250, 300, 200, 250]
+                                    }}
+                                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                                >
+                                    <svg className="w-4 h-4 text-purple-500 fill-purple-500 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]" viewBox="0 0 24 24"><path d="M0 0L10 24L14 14L24 10L0 0Z" /></svg>
+                                    <div className="ml-3 px-2 py-0.5 bg-purple-500 text-white text-[10px] font-bold rounded-full shadow-lg whitespace-nowrap">Alex</div>
+                                </motion.div>
+
+                                {/* Cursor 3: Sarah (Pink) */}
+                                <motion.div
+                                    className="absolute"
+                                    animate={{
+                                        x: [150, 100, 200, 150],
+                                        y: [300, 350, 300, 300]
+                                    }}
+                                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                                >
+                                    <svg className="w-4 h-4 text-pink-500 fill-pink-500 drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]" viewBox="0 0 24 24"><path d="M0 0L10 24L14 14L24 10L0 0Z" /></svg>
+                                    <div className="ml-3 px-2 py-0.5 bg-pink-500 text-white text-[10px] font-bold rounded-full shadow-lg whitespace-nowrap">Sarah</div>
+                                </motion.div>
                             </div>
-                        </div>
+                        </motion.div>
 
                         {/* Decorative Corner Marks */}
                         <div className="absolute top-4 left-4 w-2 h-2 border-t border-l border-white/20"></div>
