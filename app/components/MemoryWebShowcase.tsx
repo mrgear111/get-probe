@@ -5,287 +5,372 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 
 // --- Visualizations ---
 
-// 1. Local Memory Engine: "The Crystalline Vault"
-const LocalMemoryVisual = () => (
-    <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
-        <div className="relative w-64 h-64 flex items-center justify-center transform-style-3d animate-float">
-            {/* Outer Glass Cube */}
-            <motion.div
-                className="w-40 h-40 border border-blue-400/30 bg-blue-500/5 backdrop-blur-sm rounded-2xl shadow-[0_0_60px_rgba(59,130,246,0.2)] flex items-center justify-center relative z-10"
-                // animate={{ rotateX: [0, 360], rotateY: [0, 360] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                style={{ transformStyle: "preserve-3d" }}
-            >
-                {/* Inner Core */}
-                <motion.div
-                    className="w-20 h-20 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl shadow-[0_0_40px_rgba(34,211,238,0.6)] flex items-center justify-center"
-                    // animate={{ rotateX: [360, 0], rotateY: [360, 0] }} // Counter-rotate
-                    transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                >
-                    <svg className="w-10 h-10 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                </motion.div>
-            </motion.div>
+import { MotionValue, useTransform, useScroll } from "framer-motion";
 
-            {/* Data Particles Swirling In */}
-            {[...Array(12)].map((_, i) => (
-                <motion.div
-                    key={`p-${i}`}
-                    className="absolute w-1 h-1 bg-cyan-300 rounded-full shadow-[0_0_10px_rgba(103,232,249,1)]"
-                    initial={{ opacity: 0, x: (Math.random() - 0.5) * 400, y: (Math.random() - 0.5) * 400, z: 200 }}
-                    animate={{ opacity: [0, 1, 0], x: 0, y: 0, z: 0 }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
-                />
-            ))}
-        </div>
-    </div>
-);
+interface VisualProps {
+    scrollProgress: MotionValue<number>;
+}
 
-// 2. Context-Aware Assistance: "Holographic Scan"
-const ContextAwareVisual = () => (
-    <div className="w-full h-full flex items-center justify-center p-8 relative overflow-hidden">
-        {/* Scanning Laser */}
-        <motion.div
-            className="absolute top-0 left-0 right-0 h-1 bg-cyan-400 shadow-[0_0_30px_rgba(34,211,238,0.8)] z-30"
-            animate={{ top: ["0%", "100%"] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-        />
+// 1. Local Memory Engine: "Data Crystallization"
+const LocalMemoryVisual = ({ scrollProgress }: VisualProps) => {
+    const rotate = useTransform(scrollProgress, [0, 1], [0, 360]);
+    const scale = useTransform(scrollProgress, [0, 0.5, 1], [0.8, 1.2, 0.8]);
 
-        <div className="relative w-full max-w-md aspect-video bg-[#050505] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
-            {/* Holographic Grid Overlay */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] z-20 pointer-events-none"></div>
-
-            {/* Content Being Constructed */}
-            <div className="absolute inset-0 p-6 flex flex-col gap-4 z-10">
-                <div className="flex items-center gap-4 mb-4">
+    return (
+        <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
+            <div className="relative w-64 h-64 flex items-center justify-center transform-style-3d">
+                {/* Core Crystal Structure */}
+                {[0, 45, 90].map((angle, i) => (
                     <motion.div
-                        className="w-12 h-12 rounded-lg bg-zinc-800/50 border border-cyan-500/30"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 1.5 }}
+                        key={i}
+                        className="absolute w-32 h-32 border border-cyan-400/30 bg-cyan-500/5 backdrop-blur-sm rounded-xl shadow-[0_0_30px_rgba(34,211,238,0.1)]"
+                        style={{
+                            rotateX: rotate,
+                            rotateY: useTransform(rotate, r => r + angle),
+                            scale: scale,
+                            transformStyle: "preserve-3d",
+                        }}
                     />
-                    <div className="space-y-2">
-                        <motion.div
-                            className="w-32 h-3 bg-cyan-500/20 rounded"
-                            initial={{ width: 0 }}
-                            animate={{ width: "60%" }}
-                            transition={{ duration: 0.5, delay: 0.2, repeat: Infinity, repeatDelay: 1.5 }}
-                        />
-                        <motion.div
-                            className="w-20 h-3 bg-cyan-500/20 rounded"
-                            initial={{ width: 0 }}
-                            animate={{ width: "40%" }}
-                            transition={{ duration: 0.5, delay: 0.4, repeat: Infinity, repeatDelay: 1.5 }}
-                        />
-                    </div>
-                </div>
-                <div className="space-y-3">
-                    {[1, 2, 3].map(i => (
+                ))}
+
+                {/* Floating Data Shards */}
+                {[...Array(8)].map((_, i) => {
+                    const z = useTransform(scrollProgress, [0, 1], [200, -200]);
+                    const y = useTransform(scrollProgress, [0, 1], [100 * Math.sin(i), -100 * Math.sin(i)]);
+                    const opacity = useTransform(scrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+                    return (
                         <motion.div
                             key={i}
-                            className="w-full h-16 bg-zinc-900/30 border border-white/5 rounded-lg backdrop-blur-sm"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: 0.5 + (i * 0.2), repeat: Infinity, repeatDelay: 1.5 }}
+                            className="absolute w-8 h-8 border border-white/20 bg-white/5 backdrop-blur-md transform-style-3d"
+                            style={{
+                                z,
+                                y,
+                                x: 100 * Math.cos(i * (Math.PI / 4)),
+                                rotateX: rotate,
+                                rotateY: rotate,
+                                opacity
+                            }}
                         />
-                    ))}
-                </div>
+                    );
+                })}
+
+                {/* Central Glow */}
+                <motion.div
+                    className="absolute w-16 h-16 bg-cyan-400 rounded-full blur-2xl opacity-50"
+                    style={{ scale: useTransform(scrollProgress, [0, 0.5, 1], [0.5, 1.5, 0.5]) }}
+                />
             </div>
         </div>
-    </div>
-);
+    );
+};
 
-// 3. Cross-Tab Intelligence: "Constellation"
-const CrossTabVisual = () => (
-    <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
-        <div className="relative w-full h-full flex items-center justify-center">
-            {/* Glowing Central Node */}
-            <div className="absolute z-20 w-4 h-4 bg-white rounded-full shadow-[0_0_40px_rgba(255,255,255,0.8)] animate-pulse"></div>
+// 2. Context-Aware Assistance: "Holographic Blueprint"
+const ContextAwareVisual = ({ scrollProgress }: VisualProps) => {
+    const buildProgress = useTransform(scrollProgress, [0, 1], [0, 100]);
+    const rotateX = useTransform(scrollProgress, [0, 1], [20, 0]);
+    const rotateY = useTransform(scrollProgress, [0, 1], [-20, 0]);
 
-            {/* Orbiting Nodes */}
-            {[0, 1, 2, 3, 4, 5].map((i) => {
-                const angle = (i / 6) * Math.PI * 2;
-                const radius = 140;
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
+    return (
+        <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
+            <motion.div
+                className="relative w-80 h-56 bg-zinc-900/80 border border-white/10 rounded-xl backdrop-blur-xl overflow-hidden transform-style-3d shadow-2xl"
+                style={{ rotateX, rotateY }}
+            >
+                {/* Grid Background */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+
+                {/* Scanning Beam */}
+                <motion.div
+                    className="absolute top-0 bottom-0 w-1 bg-cyan-400/50 shadow-[0_0_20px_rgba(34,211,238,0.5)] z-20"
+                    style={{ left: useTransform(buildProgress, p => `${p}%`) }}
+                />
+
+                {/* Wireframe Content Building Up */}
+                <div className="absolute inset-0 p-6 flex flex-col gap-4">
+                    <motion.div
+                        className="w-12 h-12 rounded-lg border-2 border-cyan-500/50 bg-cyan-500/10"
+                        style={{
+                            clipPath: useTransform(buildProgress, p => `polygon(0 0, ${p}% 0, ${p}% 100%, 0 100%)`)
+                        }}
+                    />
+                    <div className="space-y-3">
+                        {[80, 60, 90].map((w, i) => (
+                            <motion.div
+                                key={i}
+                                className="h-3 bg-zinc-700/50 rounded"
+                                style={{
+                                    width: `${w}%`,
+                                    clipPath: useTransform(buildProgress, p => `polygon(0 0, ${Math.max(0, p - (i * 10))}% 0, ${Math.max(0, p - (i * 10))}% 100%, 0 100%)`)
+                                }}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Floating UI Elements */}
+                    <div className="absolute right-6 top-6 w-20 h-32 border border-dashed border-white/10 rounded-lg p-2 gap-2 flex flex-col">
+                        {[...Array(3)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                className="w-full h-8 bg-white/5 rounded"
+                                style={{
+                                    opacity: useTransform(buildProgress, p => p > 50 + (i * 15) ? 1 : 0),
+                                    scale: useTransform(buildProgress, p => p > 50 + (i * 15) ? 1 : 0.8)
+                                }}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </motion.div>
+        </div>
+    );
+};
+
+// 3. Cross-Tab Intelligence: "Synaptic Web"
+const CrossTabVisual = ({ scrollProgress }: VisualProps) => {
+    const centerScale = useTransform(scrollProgress, [0, 0.5, 1], [0.8, 1.2, 0.8]);
+
+    return (
+        <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
+            <div className="relative w-full h-full flex items-center justify-center">
+                {/* Glowing Central Node */}
+                <motion.div
+                    className="absolute z-20 w-6 h-6 bg-white rounded-full shadow-[0_0_50px_rgba(255,255,255,1)]"
+                    style={{ scale: centerScale }}
+                >
+                    <div className="absolute inset-0 bg-cyan-400 rounded-full animate-ping opacity-20"></div>
+                </motion.div>
+
+                {/* Orbiting Nodes & Connections */}
+                {[0, 1, 2, 3, 4, 5].map((i) => {
+                    const angle = (i / 6) * Math.PI * 2;
+                    const radius = 140;
+                    const x = Math.cos(angle) * radius;
+                    const y = Math.sin(angle) * radius;
+
+                    const currentRadius = useTransform(scrollProgress, [0, 1], [0, radius]);
+                    const currentX = useTransform(currentRadius, r => Math.cos(angle) * r);
+                    const currentY = useTransform(currentRadius, r => Math.sin(angle) * r);
+                    const opacity = useTransform(scrollProgress, [0, 0.2], [0, 1]);
+
+                    return (
+                        <motion.div
+                            key={i}
+                            className="absolute z-10"
+                            style={{ x: currentX, y: currentY, opacity }}
+                        >
+                            <div className="w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.8)] relative">
+                                <div className="absolute inset-0 bg-white rounded-full animate-pulse"></div>
+                            </div>
+
+                            {/* Data Packet Traveling Line */}
+                            <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] -z-10 pointer-events-none overflow-visible" style={{ mixBlendMode: 'screen' }}>
+                                {/* Base Line */}
+                                <motion.line
+                                    x1="50%" y1="50%"
+                                    x2={150 - x} y2={150 - y}
+                                    stroke="rgba(34,211,238,0.2)"
+                                    strokeWidth="1"
+                                />
+                                {/* Moving Packet */}
+                                <motion.circle
+                                    r="2"
+                                    fill="white"
+                                    filter="url(#glow)"
+                                >
+                                    <animateMotion
+                                        dur={`${1 + Math.random()}s`}
+                                        repeatCount="indefinite"
+                                        path={`M150,150 L${150 - x},${150 - y}`}
+                                    />
+                                </motion.circle>
+                            </svg>
+                        </motion.div>
+                    );
+                })}
+
+                {/* Neural Background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-cyan-500/5 blur-3xl rounded-full animate-pulse-slow"></div>
+            </div>
+        </div>
+    );
+};
+
+// 4. Smart History: "Chronological Helix"
+const SmartHistoryVisual = ({ scrollProgress }: VisualProps) => {
+    return (
+        <div className="w-full h-full flex items-center justify-center overflow-hidden perspective-[800px]">
+            <div className="relative w-full h-full flex items-center justify-center transform-style-3d">
+                {[...Array(8)].map((_, i) => {
+                    // Helix math
+                    const progressOffset = i / 8;
+                    const adjustedProgress = useTransform(scrollProgress, p => (p + progressOffset) % 1);
+
+                    const y = useTransform(adjustedProgress, [0, 1], [300, -300]);
+                    const rotateY = useTransform(adjustedProgress, [0, 1], [0, 360]);
+                    const scale = useTransform(adjustedProgress, [0, 0.5, 1], [0.5, 1, 0.5]);
+                    const opacity = useTransform(adjustedProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+                    const z = useTransform(adjustedProgress, [0, 0.5, 1], [-200, 100, -200]);
+
+                    return (
+                        <motion.div
+                            key={i}
+                            className="absolute w-40 h-24 bg-zinc-900/80 border border-white/10 rounded-lg backdrop-blur-md flex flex-col p-3 shadow-xl origin-center"
+                            style={{
+                                y,
+                                rotateY,
+                                z,
+                                scale,
+                                opacity,
+                                x: useTransform(rotateY, r => Math.sin(r * Math.PI / 180) * 150) // Spiral radius
+                            }}
+                        >
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]"></div>
+                                <div className="w-12 h-1 bg-white/20 rounded"></div>
+                            </div>
+                            <div className="space-y-1">
+                                <div className="w-full h-1 bg-white/10 rounded"></div>
+                                <div className="w-3/4 h-1 bg-white/10 rounded"></div>
+                            </div>
+                        </motion.div>
+                    );
+                })}
+
+                {/* Central Time Axis */}
+                <motion.div
+                    className="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-purple-500/50 to-transparent"
+                    style={{ opacity: useTransform(scrollProgress, [0, 1], [0.2, 0.5]) }}
+                />
+            </div>
+        </div>
+    );
+};
+
+// 5. Smart Collections: "Magnetic Sorter"
+const SmartCollectionsVisual = ({ scrollProgress }: VisualProps) => {
+    return (
+        <div className="w-full h-full flex items-center justify-center relative overflow-hidden">
+            {/* Magnetic Field Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(circle,black,transparent_80%)]"></div>
+
+            {/* Floating Tabs getting sorted */}
+            {[...Array(9)].map((_, i) => {
+                const row = Math.floor(i / 3);
+                const col = i % 3;
+
+                // Random start positions
+                const randomX = (Math.random() - 0.5) * 300;
+                const randomY = (Math.random() - 0.5) * 300;
+                const randomRotate = (Math.random() - 0.5) * 180;
+
+                // Target grid positions
+                const targetX = (col - 1) * 60;
+                const targetY = (row - 1) * 40;
+
+                const x = useTransform(scrollProgress, [0, 1], [randomX, targetX]);
+                const y = useTransform(scrollProgress, [0, 1], [randomY, targetY]);
+                const rotate = useTransform(scrollProgress, [0, 1], [randomRotate, 0]);
+                const scale = useTransform(scrollProgress, [0, 0.8], [0.5, 1]);
+                const opacity = useTransform(scrollProgress, [0, 0.2], [0, 1]);
+
+                // Color based on "category" (row)
+                const colors = ["bg-blue-500", "bg-purple-500", "bg-cyan-500"];
+                const color = colors[row % 3];
 
                 return (
                     <motion.div
                         key={i}
-                        className="absolute z-10"
-                        initial={{ x: 0, y: 0, opacity: 0 }}
-                        animate={{
+                        className={`absolute w-12 h-8 ${color}/20 border border-white/10 rounded backdrop-blur-sm flex items-center justify-center`}
+                        style={{
                             x,
                             y,
-                            opacity: 1,
-                            scale: [1, 1.2, 1]
+                            rotate,
+                            scale,
+                            opacity
                         }}
-                        transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
                     >
-                        <div className="w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.8)]"></div>
-
-                        {/* Energy Beam */}
-                        <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] -z-10 pointer-events-none overflow-visible" style={{ mixBlendMode: 'screen' }}>
-                            <motion.line
-                                x1="50%" y1="50%"
-                                x2={150 - x} y2={150 - y} // Pointing back to center (approx)
-                                stroke="url(#beam-gradient)"
-                                strokeWidth="1"
-                                initial={{ pathLength: 0, opacity: 0 }}
-                                animate={{ pathLength: 1, opacity: 0.5 }}
-                                transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                            />
-                            <defs>
-                                <linearGradient id="beam-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor="rgba(34,211,238,0)" />
-                                    <stop offset="50%" stopColor="rgba(34,211,238,0.8)" />
-                                    <stop offset="100%" stopColor="rgba(34,211,238,0)" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                        <div className={`w-6 h-1 ${color}/50 rounded-full`}></div>
                     </motion.div>
                 );
             })}
 
-            {/* Background Nebula Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-cyan-500/10 blur-3xl rounded-full animate-pulse-slow"></div>
-        </div>
-    </div>
-);
-
-// 4. Smart History: "Time Vortex"
-const SmartHistoryVisual = () => (
-    <div className="w-full h-full flex items-center justify-center overflow-hidden perspective-[500px]">
-        <div className="relative w-full h-full flex items-center justify-center transform-style-3d">
-            {[...Array(6)].map((_, i) => (
-                <motion.div
-                    key={i}
-                    className="absolute w-48 h-32 bg-black/40 border border-white/10 rounded-xl backdrop-blur-md flex flex-col p-3 shadow-xl"
-                    initial={{ z: -800, opacity: 0, rotateZ: i * 30 }}
-                    animate={{
-                        z: [-800, 300],
-                        opacity: [0, 1, 0],
-                        rotateZ: [i * 30, i * 30 + 60] // Spiral motion
-                    }}
-                    transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        delay: i * 0.6,
-                        ease: "linear"
-                    }}
-                >
-                    <div className="flex items-center gap-2 mb-2">
-                        <div className="w-3 h-3 rounded-full bg-purple-500/50 shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>
-                        <div className="w-16 h-1.5 bg-white/10 rounded"></div>
-                    </div>
-                    <div className="space-y-1.5">
-                        <div className="w-full h-1.5 bg-white/5 rounded"></div>
-                        <div className="w-2/3 h-1.5 bg-white/5 rounded"></div>
-                    </div>
-                </motion.div>
-            ))}
-            {/* Vortex Center Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.1),transparent_70%)]"></div>
-        </div>
-    </div>
-);
-
-// 5. Smart Collections: "Gravity Well"
-const SmartCollectionsVisual = () => (
-    <div className="w-full h-full flex items-center justify-center relative overflow-hidden">
-        {/* The Black Hole / Folder */}
-        <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-black border border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.1)] z-20 flex items-center justify-center"
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-        >
-            <div className="w-2 h-2 bg-white rounded-full shadow-[0_0_20px_white]"></div>
-        </motion.div>
-
-        {/* Accretion Disk (Folder Outline) */}
-        <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-dashed border-white/10 rounded-full z-10"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        />
-
-        {/* Floating Tabs getting sucked in */}
-        {[...Array(6)].map((_, i) => (
+            {/* Sorting Beam */}
             <motion.div
-                key={i}
-                className="absolute top-1/2 left-1/2 w-12 h-8 bg-zinc-800/80 border border-white/20 rounded backdrop-blur-sm z-0"
-                initial={{
-                    x: Math.cos(i) * 200,
-                    y: Math.sin(i) * 200,
-                    opacity: 0,
-                    scale: 1,
-                    rotate: Math.random() * 360
-                }}
-                animate={{
-                    x: 0,
-                    y: 0,
-                    opacity: [0, 1, 0],
-                    scale: 0,
-                    rotate: Math.random() * 360 + 720
-                }}
-                transition={{
-                    duration: 2,
-                    delay: i * 0.3,
-                    ease: "easeIn",
-                    repeat: Infinity
+                className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent"
+                style={{
+                    top: useTransform(scrollProgress, [0, 1], ["-100%", "100%"]),
+                    opacity: useTransform(scrollProgress, [0, 0.5, 1], [0, 1, 0])
                 }}
             />
-        ))}
-    </div>
-);
+        </div>
+    );
+};
 
-// 6. Ask Probe: "The AI Core"
-const AskProbeVisual = () => (
-    <div className="w-full h-full flex items-center justify-center p-8 perspective-[1000px]">
-        <div className="relative flex flex-col items-center">
-            {/* The Core Orb */}
-            <motion.div
-                className="w-32 h-32 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-[0_0_60px_rgba(168,85,247,0.6)] relative z-20 mb-8"
-                animate={{
-                    scale: [1, 1.05, 1],
-                    filter: ["hue-rotate(0deg)", "hue-rotate(90deg)", "hue-rotate(0deg)"]
-                }}
-                transition={{ duration: 4, repeat: Infinity }}
-            >
-                <div className="absolute inset-0 bg-white/20 rounded-full blur-md"></div>
-            </motion.div>
+// 6. Ask Probe: "Neural Pulse"
+const AskProbeVisual = ({ scrollProgress }: VisualProps) => {
+    const pulseScale = useTransform(scrollProgress, [0, 0.5], [0, 2]);
+    const pulseOpacity = useTransform(scrollProgress, [0, 0.5], [1, 0]);
 
-            {/* Voice Waves */}
-            <div className="flex items-center gap-1 h-8 mb-8">
-                {[...Array(5)].map((_, i) => (
+    return (
+        <div className="w-full h-full flex items-center justify-center p-8 perspective-[1000px]">
+            <div className="relative flex flex-col items-center justify-center w-full h-full">
+
+                {/* Expanding Shockwaves */}
+                {[0, 1, 2].map(i => (
                     <motion.div
                         key={i}
-                        className="w-1 bg-white/80 rounded-full shadow-[0_0_10px_white]"
-                        animate={{ height: [10, 30, 10] }}
-                        transition={{
-                            duration: 0.5,
-                            repeat: Infinity,
-                            delay: i * 0.1,
-                            ease: "easeInOut"
+                        className="absolute w-32 h-32 rounded-full border border-purple-500/30"
+                        style={{
+                            scale: useTransform(scrollProgress, [0, 1], [0.5, 2 + i]),
+                            opacity: useTransform(scrollProgress, [0, 0.5 + (i * 0.1), 1], [0, 1, 0]),
+                            borderWidth: useTransform(scrollProgress, [0, 1], [2, 0])
                         }}
                     />
                 ))}
-            </div>
 
-            {/* Holographic Result */}
-            <motion.div
-                className="w-64 bg-black/80 border border-white/10 p-4 rounded-xl backdrop-blur-xl shadow-2xl transform-style-3d rotate-x-12"
-                initial={{ opacity: 0, y: 20, rotateX: 20 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                transition={{ duration: 0.5, delay: 0.5, repeat: Infinity, repeatDelay: 2 }}
-            >
-                <div className="text-xs text-purple-300 mb-1 font-bold tracking-wider">AI ANALYSIS COMPLETE</div>
-                <div className="text-sm text-white leading-relaxed">"Here are the top 3 articles about Rust performance optimization..."</div>
-            </motion.div>
+                {/* The Core Brain */}
+                <motion.div
+                    className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 shadow-[0_0_60px_rgba(168,85,247,0.4)] relative z-20 flex items-center justify-center"
+                    style={{
+                        scale: useTransform(scrollProgress, [0, 0.5, 1], [0.8, 1.2, 1]),
+                    }}
+                >
+                    <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                </motion.div>
+
+                {/* Result Cards Popping Out */}
+                <div className="absolute w-full h-full pointer-events-none">
+                    {[0, 1, 2].map((i) => {
+                        const angle = (i / 3) * Math.PI * 2 - (Math.PI / 2);
+                        const distance = 140;
+
+                        return (
+                            <motion.div
+                                key={i}
+                                className="absolute top-1/2 left-1/2 w-48 bg-zinc-900/90 border border-white/10 p-3 rounded-lg backdrop-blur-xl shadow-xl"
+                                style={{
+                                    x: useTransform(scrollProgress, [0.5, 1], [0, Math.cos(angle) * distance]),
+                                    y: useTransform(scrollProgress, [0.5, 1], [0, Math.sin(angle) * distance]),
+                                    opacity: useTransform(scrollProgress, [0.5, 0.8], [0, 1]),
+                                    scale: useTransform(scrollProgress, [0.5, 1], [0, 1]),
+                                    marginLeft: -96, // Half width to center
+                                    marginTop: -30   // Half height to center
+                                }}
+                            >
+                                <div className="h-2 w-24 bg-purple-500/20 rounded mb-2"></div>
+                                <div className="h-1.5 w-full bg-white/10 rounded mb-1"></div>
+                                <div className="h-1.5 w-2/3 bg-white/10 rounded"></div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 // --- Main Component ---
 
@@ -322,9 +407,8 @@ const features = [
     }
 ];
 
-const FeatureSection = ({ feature, index, setFocusedIndex, isLast }: { feature: any, index: number, setFocusedIndex: (i: number) => void, isLast: boolean }) => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { margin: "-20% 0px -20% 0px" });
+const FeatureSection = ({ feature, index, setFocusedIndex, isLast, forwardedRef }: { feature: any, index: number, setFocusedIndex: (i: number) => void, isLast: boolean, forwardedRef: React.RefObject<HTMLDivElement> }) => {
+    const isInView = useInView(forwardedRef, { margin: "-50% 0px -50% 0px" });
 
     useEffect(() => {
         if (isInView) {
@@ -332,65 +416,214 @@ const FeatureSection = ({ feature, index, setFocusedIndex, isLast }: { feature: 
         }
     }, [isInView, index, setFocusedIndex]);
 
-    const folderName = feature.title.toLowerCase().replace(/\s+/g, '-').replace(/[&()]/g, '');
+    return (
+        <div ref={forwardedRef} className="min-h-[150vh] flex items-center py-6 font-sans relative">
+            <motion.div
+                className="flex flex-col gap-8 w-full max-w-xl"
+                animate={{ opacity: isInView ? 1 : 0.2, scale: isInView ? 1 : 0.95 }}
+                transition={{ duration: 0.5 }}
+            >
+                {/* Main Content */}
+                <div className="space-y-6">
+                    <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-tight">
+                        {feature.title}
+                    </h3>
+                    <p className="text-lg text-zinc-400 leading-relaxed font-light">
+                        {feature.description}
+                    </p>
+
+                    {/* Call to Action */}
+                    <div className="flex items-center gap-4 pt-2">
+                        <button className="px-6 py-3 bg-white text-black font-bold rounded hover:bg-zinc-200 transition-colors uppercase tracking-wide text-xs">
+                            Try {feature.title}
+                        </button>
+                        <button className="flex items-center gap-2 text-zinc-400 hover:text-white font-mono text-xs uppercase tracking-wider transition-colors group">
+                            Documentation <span className="group-hover:translate-x-1 transition-transform">→</span>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Insight / Testimonial Card */}
+                <div className="mt-8 p-5 bg-zinc-900/30 border border-white/10 rounded-xl backdrop-blur-md flex items-start gap-4 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                    <div className="flex-shrink-0 w-8 h-8 rounded bg-zinc-800 flex items-center justify-center border border-white/5 relative z-10">
+                        <svg className="w-4 h-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                    </div>
+                    <div className="relative z-10">
+                        <p className="text-sm text-zinc-300 italic mb-2 font-mono">
+                            "// Probe's {feature.title.toLowerCase()} optimized my workflow by 30%."
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                            <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest font-mono">
+                                Verified User
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+        </div>
+    );
+};
+
+const ActiveVisual = ({ feature, targetRef }: { feature: any, targetRef: React.RefObject<HTMLElement> }) => {
+    const { scrollYProgress } = useScroll({
+        target: targetRef,
+        offset: ["start end", "end start"]
+    });
+
+    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+    const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+    const blur = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [20, 0, 0, 20]);
+    const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
     return (
-        <div ref={ref} className="py-6 font-mono text-sm relative min-h-[300px]">
-            <div className="flex gap-5 items-start">
-                {/* Tree connector lines */}
-                <div className="flex flex-col items-center text-zinc-700/50 pt-1 min-h-[180px]">
-                    <span className="text-zinc-600 leading-none text-base">{isLast ? "└──" : "├──"}</span>
-                    {!isLast && (
-                        <span className="text-zinc-800/30 text-sm leading-[1.2] flex-1 mt-1">│</span>
-                    )}
-                </div>
-
-                {/* Folder structure content */}
-                <div className="flex-1">
-                    {/* Feature folder */}
-                    <div className="text-zinc-300 mb-3 text-base">
-                        <span className="text-zinc-500">Probe Memory/</span>
-                        <span className="text-zinc-300 font-medium">{folderName}/</span>
-                    </div>
-
-                    {/* Description subfolder */}
-                    <div className="ml-6 space-y-2">
-                        <div className="text-zinc-500 text-sm">
-                            <span className="text-zinc-600">└──</span>
-                            <span className="text-zinc-500 ml-2">description/</span>
-                        </div>
-                        <div className="ml-7 text-zinc-400 text-sm leading-relaxed max-w-lg">
-                            {feature.description}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <motion.div
+            className="absolute inset-0"
+            style={{
+                opacity,
+                scale,
+                y,
+                filter: useTransform(blur, b => `blur(${b}px)`)
+            }}
+        >
+            {React.createElement(feature.visual, { scrollProgress: scrollYProgress })}
+        </motion.div>
     );
 };
 
 export default function MemoryWebShowcase() {
     const [focusedIndex, setFocusedIndex] = useState(0);
+    const sectionRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
+    const containerRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    // Initialize refs array once
+    if (sectionRefs.current.length === 0) {
+        sectionRefs.current = features.map(() => React.createRef<HTMLDivElement>());
+    }
 
     return (
-        <section id="memory-web" className="bg-[#050505] pt-32 pb-0 flex justify-center relative">
+        <section ref={containerRef} id="memory-web" className="bg-[#050505] pt-32 pb-0 flex justify-center relative">
 
-            {/* Atmosphere: Nebula Background */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] animate-pulse-slow"></div>
-                <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+            {/* Atmosphere: Parallax Background Layers */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                {/* Layer 1: Deep Space Stars (Slowest) */}
+                <motion.div
+                    className="absolute inset-0 z-0"
+                    style={{ y: useTransform(scrollYProgress, [0, 1], [0, 300]) }}
+                >
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30"></div>
+                    {[...Array(40)].map((_, i) => (
+                        <div
+                            key={i}
+                            className="absolute bg-white rounded-full shadow-[0_0_2px_white]"
+                            style={{
+                                width: Math.random() * 3 + 1 + "px",
+                                height: Math.random() * 3 + 1 + "px",
+                                top: Math.random() * 100 + "%",
+                                left: Math.random() * 100 + "%",
+                                opacity: Math.random() * 0.7 + 0.3
+                            }}
+                        />
+                    ))}
+                </motion.div>
+
+                {/* Layer 2: Nebula Clouds (Medium) */}
+                <motion.div
+                    className="absolute inset-0 z-0"
+                    style={{ y: useTransform(scrollYProgress, [0, 1], [0, 500]) }}
+                >
+                    <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] animate-pulse-slow mix-blend-screen"></div>
+                    <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[100px] animate-pulse-slow mix-blend-screen" style={{ animationDelay: '2s' }}></div>
+                </motion.div>
+
+                {/* Layer 3: Tech Grid (Fast) */}
+                <motion.div
+                    className="absolute inset-0 z-0"
+                    style={{ y: useTransform(scrollYProgress, [0, 1], [0, 800]) }}
+                >
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:120px_120px] [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"></div>
+                </motion.div>
             </div>
 
-            <div className="w-full relative z-10">
+            <div className="relative z-10 w-full">
 
-                {/* Header */}
-                <div className="mb-24 text-center">
-                    <h2 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tighter">
-                        Introducing the <span className="text-zinc-500">MEMORY WEB</span>
-                    </h2>
-                    <p className="text-sm text-zinc-500 font-mono tracking-wide">
-                        Because You Shouldn’t Have to Re‑Search Everything.
-                    </p>
+                {/* Cinematic Intro Section */}
+                <div className="h-[300vh] relative">
+                    <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+                        <motion.div
+                            className="text-center px-4 relative z-10"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 1 }}
+                            viewport={{ once: true }}
+                        >
+                            <h2 className="text-6xl md:text-[10rem] font-bold text-white tracking-tighter leading-none flex flex-col items-center">
+                                <motion.span
+                                    style={{
+                                        opacity: useTransform(scrollYProgress, [0, 0.15], [0, 1]),
+                                        scale: useTransform(scrollYProgress, [0, 0.15], [0.8, 1]),
+                                        y: useTransform(scrollYProgress, [0.15, 0.25], [0, -50])
+                                    }}
+                                    className="text-4xl md:text-7xl mb-4 block"
+                                >
+                                    Introducing the
+                                </motion.span>
+
+                                <div className="flex items-center justify-center whitespace-nowrap">
+                                    {/* MEM */}
+                                    <motion.span
+                                        style={{
+                                            x: useTransform(scrollYProgress, [0.2, 0.4], [0, -1000]),
+                                            opacity: useTransform(scrollYProgress, [0.2, 0.35], [1, 0])
+                                        }}
+                                    >
+                                        MEM
+                                    </motion.span>
+
+                                    {/* The O - The Portal */}
+                                    <motion.div
+                                        className="inline-block relative mx-1"
+                                        style={{
+                                            scale: useTransform(scrollYProgress, [0.2, 0.6], [1, 150]),
+                                            x: useTransform(scrollYProgress, [0.2, 0.6], [0, -15]), // Slight correction to keep center
+                                        }}
+                                    >
+                                        <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80">O</span>
+                                        {/* Glow behind O */}
+                                        <motion.div
+                                            className="absolute inset-0 bg-cyan-500/20 blur-xl rounded-full"
+                                            style={{ opacity: useTransform(scrollYProgress, [0.2, 0.4], [0, 1]) }}
+                                        />
+                                    </motion.div>
+
+                                    {/* RY WEB */}
+                                    <motion.span
+                                        style={{
+                                            x: useTransform(scrollYProgress, [0.2, 0.4], [0, 1000]),
+                                            opacity: useTransform(scrollYProgress, [0.2, 0.35], [1, 0])
+                                        }}
+                                    >
+                                        RY WEB
+                                    </motion.span>
+                                </div>
+                            </h2>
+
+                            <motion.p
+                                className="text-xl md:text-2xl text-zinc-400 font-mono tracking-wide max-w-3xl mx-auto leading-relaxed mt-8"
+                                style={{ opacity: useTransform(scrollYProgress, [0.15, 0.25], [1, 0]) }}
+                            >
+                                Because You Shouldn’t Have to <span className="text-cyan-400">Re‑Search</span> Everything.
+                            </motion.p>
+                        </motion.div>
+                    </div>
                 </div>
 
                 {/* Main Container Box */}
@@ -409,6 +642,7 @@ export default function MemoryWebShowcase() {
                                     index={index}
                                     setFocusedIndex={setFocusedIndex}
                                     isLast={index === features.length - 1}
+                                    forwardedRef={sectionRefs.current[index]}
                                 />
                             ))}
                         </div>
@@ -419,22 +653,15 @@ export default function MemoryWebShowcase() {
                         {/* Inner Noise Texture */}
                         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none"></div>
 
-                        <div className="sticky top-24 h-[600px] flex items-center justify-center p-12">
+                        <div className="sticky top-0 h-screen flex items-center justify-center p-12">
                             <div className="w-full aspect-square rounded-2xl relative">
-
-                                <AnimatePresence mode="wait">
-                                    <motion.div
-                                        key={focusedIndex}
-                                        initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-                                        animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                                        exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
-                                        transition={{ duration: 0.4, ease: "easeInOut" }}
-                                        className="absolute inset-0"
-                                    >
-                                        {React.createElement(features[focusedIndex].visual)}
-                                    </motion.div>
-                                </AnimatePresence>
-
+                                {features.map((feature, index) => (
+                                    <ActiveVisual
+                                        key={index}
+                                        feature={feature}
+                                        targetRef={sectionRefs.current[index] as React.RefObject<HTMLElement>}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>

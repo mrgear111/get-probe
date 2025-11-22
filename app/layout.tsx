@@ -63,9 +63,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased bg-[#050505] text-white selection:bg-purple-500/30`}
+        suppressHydrationWarning
       >
         <ModalProvider>
           <Navbar />
