@@ -407,7 +407,7 @@ const features = [
     }
 ];
 
-const FeatureSection = ({ feature, index, setFocusedIndex, isLast, forwardedRef }: { feature: any, index: number, setFocusedIndex: (i: number) => void, isLast: boolean, forwardedRef: React.RefObject<HTMLDivElement> }) => {
+const FeatureSection = ({ feature, index, setFocusedIndex, isLast, forwardedRef }: { feature: any, index: number, setFocusedIndex: (i: number) => void, isLast: boolean, forwardedRef: React.RefObject<HTMLDivElement | null> }) => {
     const isInView = useInView(forwardedRef, { margin: "-50% 0px -50% 0px" });
 
     useEffect(() => {
@@ -469,7 +469,7 @@ const FeatureSection = ({ feature, index, setFocusedIndex, isLast, forwardedRef 
     );
 };
 
-const ActiveVisual = ({ feature, targetRef }: { feature: any, targetRef: React.RefObject<HTMLElement> }) => {
+const ActiveVisual = ({ feature, targetRef }: { feature: any, targetRef: React.RefObject<HTMLElement | null> }) => {
     const { scrollYProgress } = useScroll({
         target: targetRef,
         offset: ["start end", "end start"]
@@ -497,7 +497,7 @@ const ActiveVisual = ({ feature, targetRef }: { feature: any, targetRef: React.R
 
 export default function MemoryWebShowcase() {
     const [focusedIndex, setFocusedIndex] = useState(0);
-    const sectionRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
+    const sectionRefs = useRef<React.RefObject<HTMLDivElement | null>[]>([]);
     const containerRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -506,7 +506,7 @@ export default function MemoryWebShowcase() {
 
     // Initialize refs array once
     if (sectionRefs.current.length === 0) {
-        sectionRefs.current = features.map(() => React.createRef<HTMLDivElement>());
+        sectionRefs.current = features.map(() => React.createRef<HTMLDivElement | null>());
     }
 
     return (
@@ -659,7 +659,7 @@ export default function MemoryWebShowcase() {
                                     <ActiveVisual
                                         key={index}
                                         feature={feature}
-                                        targetRef={sectionRefs.current[index] as React.RefObject<HTMLElement>}
+                                        targetRef={sectionRefs.current[index]}
                                     />
                                 ))}
                             </div>
