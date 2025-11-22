@@ -344,7 +344,7 @@ const FeatureSection = ({ feature, index, setFocusedIndex, isLast }: { feature: 
                         <span className="text-zinc-800/30 text-sm leading-[1.2] flex-1 mt-1">│</span>
                     )}
                 </div>
-                
+
                 {/* Folder structure content */}
                 <div className="flex-1">
                     {/* Feature folder */}
@@ -352,7 +352,7 @@ const FeatureSection = ({ feature, index, setFocusedIndex, isLast }: { feature: 
                         <span className="text-zinc-500">Probe Memory/</span>
                         <span className="text-zinc-300 font-medium">{folderName}/</span>
                     </div>
-                    
+
                     {/* Description subfolder */}
                     <div className="ml-6 space-y-2">
                         <div className="text-zinc-500 text-sm">
@@ -389,7 +389,7 @@ export default function MemoryWebShowcase() {
                         Introducing the <span className="text-zinc-500">MEMORY WEB</span>
                     </h2>
                     <p className="text-sm text-zinc-500 font-mono tracking-wide">
-                        Used by 10k+ developers daily.
+                        Because You Shouldn’t Have to Re‑Search Everything.
                     </p>
                 </div>
 

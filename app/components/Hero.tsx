@@ -53,7 +53,7 @@ export default function Hero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
             </span>
-            v1.0 Public Beta
+            Still in the Lab, but Almost Ready
           </div>
 
           <h1 className="text-7xl md:text-9xl font-bold tracking-tighter text-white mb-8 leading-[0.9]">
@@ -62,8 +62,8 @@ export default function Hero() {
           </h1>
 
           <p className="text-xl text-zinc-400 max-w-2xl mb-10 leading-relaxed">
-            Probe is a high-performance browser built for developers. <br className="hidden md:block" />
-            Native devtools, AI debugging, and zero-config workflow integrations.
+            Probe isn't just another browser, it's the foundation of a new kind of <br className="hidden md:block" />
+            web experience where AI, development, and everyday exploration coexist.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
