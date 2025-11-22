@@ -31,11 +31,8 @@ export default function Navbar() {
 
                 {/* Desktop Nav */}
                 <div className="hidden md:flex items-center gap-6 mr-auto">
-                    <Link href="#" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">Pricing</Link>
-                    <Link href="#" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">Blog</Link>
-                    <Link href="#" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">Changelog</Link>
-                    <Link href="#" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">Templates</Link>
-                    <Link href="#" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">Docs</Link>
+                    <Link href="#probe-spaces" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">Probe Spaces</Link>
+                    <Link href="#memory-web" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">Memory Web</Link>
                 </div>
 
                 {/* Right Actions */}
@@ -101,11 +98,8 @@ export default function Navbar() {
                             </button>
                         </div>
                         <div className="flex flex-col gap-6 text-lg font-medium text-zinc-400">
-                            <Link href="#" className="hover:text-white uppercase">Pricing</Link>
-                            <Link href="#" className="hover:text-white uppercase">Blog</Link>
-                            <Link href="#" className="hover:text-white uppercase">Changelog</Link>
-                            <Link href="#" className="hover:text-white uppercase">Templates</Link>
-                            <Link href="#" className="hover:text-white uppercase">Docs</Link>
+                            <Link href="#probe-spaces" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Probe Spaces</Link>
+                            <Link href="#memory-web" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Memory Web</Link>
                         </div>
                         <div className="mt-auto">
                             <button

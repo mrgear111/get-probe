@@ -373,7 +373,7 @@ export default function MemoryWebShowcase() {
     const [focusedIndex, setFocusedIndex] = useState(0);
 
     return (
-        <section className="bg-[#050505] py-32 flex justify-center relative">
+        <section id="memory-web" className="bg-[#050505] pt-32 pb-0 flex justify-center relative">
 
             {/* Atmosphere: Nebula Background */}
             <div className="absolute inset-0 pointer-events-none">
@@ -381,7 +381,7 @@ export default function MemoryWebShowcase() {
                 <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
             </div>
 
-            <div className="max-w-7xl w-full px-6 relative z-10">
+            <div className="w-full relative z-10">
 
                 {/* Header */}
                 <div className="mb-24 text-center">
@@ -394,13 +394,13 @@ export default function MemoryWebShowcase() {
                 </div>
 
                 {/* Main Container Box */}
-                <div className="border border-white/10 bg-zinc-900/40 backdrop-blur-xl rounded-3xl flex flex-col md:flex-row relative shadow-2xl group">
+                <div className="border-y border-white/10 bg-zinc-900/40 backdrop-blur-xl flex flex-col md:flex-row relative shadow-2xl group">
 
                     {/* Moving Spotlight Border Effect */}
-                    <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_var(--x,50%)_var(--y,50%),rgba(255,255,255,0.1)_0%,transparent_50%)] rounded-3xl"></div>
+                    <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_var(--x,50%)_var(--y,50%),rgba(255,255,255,0.1)_0%,transparent_50%)]"></div>
 
                     {/* Left: Scrolling Text */}
-                    <div className="w-full md:w-1/2 p-10 border-r border-white/5 md:rounded-l-3xl relative z-10 bg-zinc-950/20">
+                    <div className="w-full md:w-1/2 p-10 border-r border-white/5 relative z-10 bg-zinc-950/20">
                         <div className="flex flex-col">
                             {features.map((feature, index) => (
                                 <FeatureSection
@@ -415,7 +415,7 @@ export default function MemoryWebShowcase() {
                     </div>
 
                     {/* Right: Sticky Visual */}
-                    <div className="hidden md:block w-1/2 relative bg-black/20 md:rounded-r-3xl">
+                    <div className="hidden md:block w-1/2 relative bg-black/20">
                         {/* Inner Noise Texture */}
                         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none"></div>
 

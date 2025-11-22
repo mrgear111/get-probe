@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 
@@ -16,6 +16,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Probe | The Browser for Modern Engineering",
   description: "A high-performance browser built for developers. Native devtools, AI debugging, and zero-config workflow integrations.",
@@ -28,12 +33,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#050505] text-white antialiased selection:bg-blue-500/30">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased bg-[#050505] text-white selection:bg-purple-500/30`}
+      >
         <ModalProvider>
-            <Navbar />
-            <main className="flex flex-col min-h-screen">{children}</main>
-            <RegisterModal />
-          </ModalProvider>
+          <Navbar />
+          {children}
+          <RegisterModal />
+        </ModalProvider>
       </body>
     </html>
   );

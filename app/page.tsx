@@ -2,27 +2,32 @@ import Hero from "./components/Hero";
 import BentoGridFeatures from "./components/BentoGridFeatures";
 import MemoryWebShowcase from "./components/MemoryWebShowcase";
 import ProbeSpaces from "./components/ProbeSpaces";
-import DownloadCTA from "./components/DownloadCTA";
-import ScrollSection from "./components/ScrollSection";
+
+import SectionSeparator from "./components/SectionSeparator";
+import MagicBento from "./components/MagicBento";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#050505]">
-      <ScrollSection>
-        <Hero />
-      </ScrollSection>
-      <ScrollSection>
-        <BentoGridFeatures />
-      </ScrollSection>
-      <ScrollSection>
-        <MemoryWebShowcase />
-      </ScrollSection>
-      <ScrollSection>
-        <ProbeSpaces />
-      </ScrollSection>
-      <ScrollSection>
-        <DownloadCTA />
-      </ScrollSection>
+      <Hero />
+      <BentoGridFeatures />
+      <MemoryWebShowcase />
+      <SectionSeparator />
+      <ProbeSpaces />
+      <MagicBento
+        textAutoHide={true}
+        enableStars={true}
+        enableSpotlight={true}
+        enableBorderGlow={true}
+        enableTilt={true}
+        enableMagnetism={true}
+        clickEffect={true}
+        spotlightRadius={300}
+        particleCount={12}
+        glowColor="132, 0, 255"
+      />
+      <Footer />
     </main>
   );
 }
