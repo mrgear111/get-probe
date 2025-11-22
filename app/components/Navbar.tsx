@@ -31,11 +31,11 @@ export default function Navbar() {
 
                 {/* Desktop Nav */}
                 <div className="hidden md:flex items-center gap-6 mr-auto">
-                    <Link href="#probe-for-developers" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Console</Link>
-                    <Link href="#probe-spaces" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Probe Spaces</Link>
-                    <Link href="/architects" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">ARCHITECTS</Link>
+                    <Link href="/#memory-web" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Memory Web</Link>
+                    <Link href="/#probe-spaces" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Probe Spaces</Link>
+                    <Link href="/#probe-for-developers" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Console</Link>
                     <Link href="/documentation" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">DOCUMENTATION</Link>
-                    <Link href="#memory-web" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Memory Web</Link>
+                    <Link href="/architects" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">ARCHITECTS</Link>
                 </div>
 
                 {/* Right Actions */}
@@ -101,10 +101,11 @@ export default function Navbar() {
                             </button>
                         </div>
                         <div className="flex flex-col gap-6 text-lg font-medium text-zinc-400">
-                            <Link href="#probe-for-developers" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Console</Link>
-                            <Link href="#probe-spaces" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Probe Spaces</Link>
+                            <Link href="/#memory-web" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Memory Web</Link>
+                            <Link href="/#probe-spaces" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Probe Spaces</Link>
+                            <Link href="/#probe-for-developers" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Console</Link>
+                            <Link href="/documentation" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">DOCUMENTATION</Link>
                             <Link href="/architects" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Architects</Link>
-                            <Link href="#memory-web" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Memory Web</Link>
                         </div>
                         <div className="mt-auto">
                             <button

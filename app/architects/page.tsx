@@ -64,9 +64,9 @@ export default function ArchitectsPage() {
                             avatarUrl="/sourav.jpg"
                             grainUrl="https://grainy-gradients.vercel.app/noise.svg"
                             contactText="Connect"
-                            onContactClick={() => window.open("https://x.com/souravbhagat_4", "_blank")}
-                            innerGradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)"
-                            behindGlowColor="rgba(120, 119, 198, 0.3)"
+                            onContactClick={() => window.open("https://www.linkedin.com/in/sogoyalz/", "_blank")}
+                            innerGradient="linear-gradient(to bottom, #000000 0%, #1a1a2e 60%, #2d2d55 100%)"
+                            behindGlowColor="rgba(120, 119, 198, 0.2)"
                             behindGlowSize="60%"
                         />
                         <ProfileCard
@@ -77,9 +77,9 @@ export default function ArchitectsPage() {
                             avatarUrl="/daksh.jpg"
                             grainUrl="https://grainy-gradients.vercel.app/noise.svg"
                             contactText="Connect"
-                            onContactClick={() => window.open("https://x.com/", "_blank")}
-                            innerGradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)"
-                            behindGlowColor="rgba(120, 119, 198, 0.3)"
+                            onContactClick={() => window.open("https://www.linkedin.com/in/dakshsainii/", "_blank")}
+                            innerGradient="linear-gradient(to bottom, #000000 0%, #1a1a2e 60%, #2d2d55 100%)"
+                            behindGlowColor="rgba(120, 119, 198, 0.2)"
                             behindGlowSize="60%"
                         />
                     </div>
