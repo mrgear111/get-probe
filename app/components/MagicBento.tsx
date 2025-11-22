@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
 import { gsap } from 'gsap';
 import {
     Terminal,
@@ -22,6 +23,7 @@ export interface BentoCardProps {
     disableAnimations?: boolean;
     visual?: React.ReactNode;
     icon?: React.ElementType;
+    href: string;
 }
 
 const ConsoleVisual = () => (
@@ -97,56 +99,64 @@ const cardData: BentoCardProps[] = [
         title: 'Probe Console',
         description: 'Unified devtools + terminal + AI',
         label: 'DEBUG: REALTIME',
-        visual: <ConsoleVisual />
+        visual: <ConsoleVisual />,
+        href: '/documentation/probeconsole'
     },
     {
         color: '#060010',
         title: 'API Client',
         description: 'Test & replay API calls',
         label: 'API: NATIVE',
-        visual: <ApiClientVisual />
+        visual: <ApiClientVisual />,
+        href: '/documentation/apiclient'
     },
     {
         color: '#060010',
         title: 'Network Analyzer',
         description: 'Debug HTTP/WebSocket',
         label: 'NET: TRAFFIC',
-        visual: <NetworkVisual />
+        visual: <NetworkVisual />,
+        href: '/documentation/network'
     },
     {
         color: '#060010',
         title: 'Probe AI',
         description: 'Real-time debugging help',
         label: 'AI: ASSIST',
-        visual: <AiVisual />
+        visual: <AiVisual />,
+        href: '/documentation/probeai'
     },
     {
         color: '#060010',
         title: 'Split Tabs',
         description: 'Frontend & Backend side-by-side',
         label: 'VIEW: SPLIT',
-        visual: <SplitTabsVisual />
+        visual: <SplitTabsVisual />,
+        href: '/documentation/splittabs'
     },
     {
         color: '#060010',
         title: 'Workspace Mode',
         description: 'Save full project setup',
         label: 'SYS: PERSIST',
-        visual: <WorkspaceVisual />
+        visual: <WorkspaceVisual />,
+        href: '/documentation/workspace'
     },
     {
         color: '#060010',
         title: 'Offline Dev',
         description: 'Local HTML/CSS/JS support',
         label: 'MODE: OFFLINE',
-        visual: <OfflineVisual />
+        visual: <OfflineVisual />,
+        href: '/documentation/offline'
     },
     {
         color: '#060010',
         title: 'Probe CLI',
         description: 'Control browser from terminal',
         label: 'CLI: CONTROL',
-        visual: <CliVisual />
+        visual: <CliVisual />,
+        href: '/documentation/cli'
     }
 ];
 
@@ -786,7 +796,7 @@ const MagicBento: React.FC<BentoProps> = ({
                         Probe for <span className="text-zinc-500">Developers</span><span className="animate-pulse text-purple-500">_</span>
                     </h2>
                     <p className="text-sm text-zinc-500 font-mono tracking-wide">
-                        Build Faster. Browse Smarter. Ship Better.
+                        Your AI Dev Partner, Right in the Browser.
                     </p>
                 </div>
 
@@ -798,47 +808,43 @@ const MagicBento: React.FC<BentoProps> = ({
 
                             if (isParticleCard) {
                                 return (
-                                    <ParticleCard
-                                        key={index}
-                                        color={card.color}
-                                        enableStars={enableStars}
-                                        enableBorderGlow={enableBorderGlow}
-                                        disableAnimations={shouldDisableAnimations}
-                                        particleCount={particleCount}
-                                        clickEffect={clickEffect}
-                                        enableMagnetism={enableMagnetism}
-                                    >
-                                        {/* Technical Label - Top Right */}
-                                        <div className="absolute top-6 right-6 z-20">
-                                            <span className="font-mono text-[10px] tracking-wider text-zinc-500 uppercase opacity-70">{card.label}</span>
-                                        </div>
+                                    <Link href={card.href} key={index} className="card group relative flex flex-col justify-between overflow-hidden rounded-xl bg-zinc-900/40 border border-white/10 p-6 hover:border-purple-500/50 transition-colors duration-300">
+                                        <ParticleCard
+                                            className="absolute inset-0"
+                                            particleCount={particleCount}
+                                            glowColor={glowColor}
+                                            enableTilt={enableTilt}
+                                            clickEffect={clickEffect}
+                                            enableMagnetism={enableMagnetism}
+                                            enableStars={enableStars}
+                                            enableBorderGlow={enableBorderGlow}
+                                        >
+                                            {card.visual}
+                                        </ParticleCard>
 
-                                        {/* Icon - Top Left */}
-                                        {Icon && (
-                                            <div className="absolute top-6 left-6 z-20">
-                                                <Icon className="w-6 h-6 text-purple-500/80" strokeWidth={1.5} />
+                                        {/* Content needs to be relative to sit on top of ParticleCard */}
+                                        <div className="relative z-10 pointer-events-none">
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="flex items-center gap-3">
+                                                    {Icon && <Icon className="w-6 h-6 text-purple-400" strokeWidth={1.5} />}
+                                                    <h3 className="text-xl font-bold text-white tracking-tight uppercase">{card.title}</h3>
+                                                </div>
+                                                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider border border-zinc-800 px-2 py-1 rounded bg-black/50 backdrop-blur-sm">
+                                                    {card.label}
+                                                </span>
                                             </div>
-                                        )}
-
-                                        {/* Content - Bottom Left */}
-                                        <div className="card__content flex flex-col relative text-white z-10 mt-auto p-6">
-                                            <h3 className={`card__title font-mono text-xl md:text-2xl font-bold uppercase tracking-tight mb-3 ${textAutoHide ? 'text-clamp-1' : ''}`}>
-                                                {card.title}
-                                            </h3>
-                                            <div className="flex gap-3">
-                                                <div className="w-0.5 bg-purple-500/50 shrink-0"></div>
-                                                <p className={`card__description text-sm text-zinc-400 font-mono leading-relaxed ${textAutoHide ? 'text-clamp-2' : ''}`}>
-                                                    {card.description}
-                                                </p>
-                                            </div>
+                                            <p className="text-zinc-400 text-sm leading-relaxed font-light border-l-2 border-purple-500/50 pl-3">
+                                                {card.description}
+                                            </p>
                                         </div>
-                                    </ParticleCard>
+                                    </Link>
                                 );
                             } else {
                                 return (
-                                    <div
+                                    <Link
+                                        href={card.href}
                                         key={index}
-                                        className={`card ${enableBorderGlow ? 'card--border-glow' : ''} relative overflow-hidden rounded-xl bg-[#060010] border border-white/5 group`}
+                                        className="card group relative flex flex-col justify-between overflow-hidden rounded-xl bg-zinc-900/40 border border-white/10 p-6 hover:border-purple-500/50 transition-colors duration-300"
                                     >
                                         {/* Technical Label - Top Right */}
                                         <div className="absolute top-6 right-6 z-20">
@@ -864,7 +870,7 @@ const MagicBento: React.FC<BentoProps> = ({
                                                 </p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 );
                             }
                         })}

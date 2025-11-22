@@ -23,7 +23,7 @@ const LocalMemoryVisual = ({ scrollProgress }: VisualProps) => {
                 {[0, 45, 90].map((angle, i) => (
                     <motion.div
                         key={i}
-                        className="absolute w-32 h-32 border border-cyan-400/30 bg-cyan-500/5 backdrop-blur-sm rounded-xl shadow-[0_0_30px_rgba(34,211,238,0.1)]"
+                        className="absolute w-32 h-32 border border-cyan-400/30 bg-cyan-500/5 rounded-xl shadow-[0_0_15px_rgba(34,211,238,0.1)] will-change-transform"
                         style={{
                             rotateX: rotate,
                             rotateY: useTransform(rotate, r => r + angle),
@@ -42,7 +42,7 @@ const LocalMemoryVisual = ({ scrollProgress }: VisualProps) => {
                     return (
                         <motion.div
                             key={i}
-                            className="absolute w-8 h-8 border border-white/20 bg-white/5 backdrop-blur-md transform-style-3d"
+                            className="absolute w-8 h-8 border border-white/20 bg-white/5 will-change-transform"
                             style={{
                                 z,
                                 y,
@@ -176,7 +176,7 @@ const CrossTabVisual = ({ scrollProgress }: VisualProps) => {
                                 <motion.circle
                                     r="2"
                                     fill="white"
-                                    filter="url(#glow)"
+                                // Removed expensive SVG filter
                                 >
                                     <animateMotion
                                         dur={`${1 + Math.random()}s`}
@@ -192,7 +192,7 @@ const CrossTabVisual = ({ scrollProgress }: VisualProps) => {
                 {/* Neural Background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-cyan-500/5 blur-3xl rounded-full animate-pulse-slow"></div>
             </div>
-        </div>
+        </div >
     );
 };
 
@@ -215,7 +215,7 @@ const SmartHistoryVisual = ({ scrollProgress }: VisualProps) => {
                     return (
                         <motion.div
                             key={i}
-                            className="absolute w-40 h-24 bg-zinc-900/80 border border-white/10 rounded-lg backdrop-blur-md flex flex-col p-3 shadow-xl origin-center"
+                            className="absolute w-40 h-24 bg-zinc-900/90 border border-white/10 rounded-lg flex flex-col p-3 shadow-lg origin-center will-change-transform"
                             style={{
                                 y,
                                 rotateY,
@@ -247,126 +247,148 @@ const SmartHistoryVisual = ({ scrollProgress }: VisualProps) => {
     );
 };
 
-// 5. Smart Collections: "Magnetic Sorter"
+// 5. Smart Collections: "Dynamic Stacking"
 const SmartCollectionsVisual = ({ scrollProgress }: VisualProps) => {
     return (
-        <div className="w-full h-full flex items-center justify-center relative overflow-hidden">
-            {/* Magnetic Field Grid */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(circle,black,transparent_80%)]"></div>
+        <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
+            {/* 3D Stacks Container */}
+            <div className="relative w-full h-full flex items-center justify-center transform-style-3d">
 
-            {/* Floating Tabs getting sorted */}
-            {[...Array(9)].map((_, i) => {
-                const row = Math.floor(i / 3);
-                const col = i % 3;
-
-                // Random start positions
-                const randomX = (Math.random() - 0.5) * 300;
-                const randomY = (Math.random() - 0.5) * 300;
-                const randomRotate = (Math.random() - 0.5) * 180;
-
-                // Target grid positions
-                const targetX = (col - 1) * 60;
-                const targetY = (row - 1) * 40;
-
-                const x = useTransform(scrollProgress, [0, 1], [randomX, targetX]);
-                const y = useTransform(scrollProgress, [0, 1], [randomY, targetY]);
-                const rotate = useTransform(scrollProgress, [0, 1], [randomRotate, 0]);
-                const scale = useTransform(scrollProgress, [0, 0.8], [0.5, 1]);
-                const opacity = useTransform(scrollProgress, [0, 0.2], [0, 1]);
-
-                // Color based on "category" (row)
-                const colors = ["bg-blue-500", "bg-purple-500", "bg-cyan-500"];
-                const color = colors[row % 3];
-
-                return (
+                {/* Category Labels (Floating) */}
+                {[-1, 0, 1].map((offset, i) => (
                     <motion.div
-                        key={i}
-                        className={`absolute w-12 h-8 ${color}/20 border border-white/10 rounded backdrop-blur-sm flex items-center justify-center`}
+                        key={`label-${i}`}
+                        className="absolute top-1/4 text-[10px] font-mono text-zinc-500 uppercase tracking-widest"
                         style={{
-                            x,
-                            y,
-                            rotate,
-                            scale,
-                            opacity
+                            x: offset * 100,
+                            opacity: useTransform(scrollProgress, [0, 0.5], [0, 1]),
+                            y: useTransform(scrollProgress, [0, 0.5], [20, 0])
                         }}
                     >
-                        <div className={`w-6 h-1 ${color}/50 rounded-full`}></div>
+                        {["Dev", "Research", "Design"][i]}
                     </motion.div>
-                );
-            })}
+                ))}
 
-            {/* Sorting Beam */}
-            <motion.div
-                className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent"
-                style={{
-                    top: useTransform(scrollProgress, [0, 1], ["-100%", "100%"]),
-                    opacity: useTransform(scrollProgress, [0, 0.5, 1], [0, 1, 0])
-                }}
-            />
+                {/* Stacking Cards */}
+                {[...Array(12)].map((_, i) => {
+                    const stackIndex = i % 3; // 0, 1, 2 (Left, Center, Right)
+                    const cardInStack = Math.floor(i / 3); // 0, 1, 2, 3 (Bottom to Top)
+
+                    // Random initial positions for "Chaos" state
+                    const randomX = (Math.random() - 0.5) * 400;
+                    const randomY = (Math.random() - 0.5) * 400;
+                    const randomZ = (Math.random() - 0.5) * 400;
+                    const randomRotate = (Math.random() - 0.5) * 180;
+
+                    // Target positions for "Order" state
+                    const targetX = (stackIndex - 1) * 100;
+                    const targetY = 50 - (cardInStack * 15); // Stack upwards
+                    const targetZ = cardInStack * 2; // Slight Z stacking
+                    const targetRotate = (Math.random() - 0.5) * 5; // Imperfect stack
+
+                    const x = useTransform(scrollProgress, [0, 0.8], [randomX, targetX]);
+                    const y = useTransform(scrollProgress, [0, 0.8], [randomY, targetY]);
+                    const z = useTransform(scrollProgress, [0, 0.8], [randomZ, targetZ]);
+                    const rotateX = useTransform(scrollProgress, [0, 0.8], [randomRotate, 60]); // Tilt for 3D view
+                    const rotateY = useTransform(scrollProgress, [0, 0.8], [randomRotate, 0]);
+                    const rotateZ = useTransform(scrollProgress, [0, 0.8], [randomRotate, targetRotate]);
+                    const opacity = useTransform(scrollProgress, [0, 0.2], [0, 1]);
+
+                    const colors = ["bg-blue-500", "bg-purple-500", "bg-cyan-500"];
+                    const color = colors[stackIndex];
+
+                    return (
+                        <motion.div
+                            key={i}
+                            className={`absolute w-20 h-28 ${color}/10 border border-white/10 rounded-lg backdrop-blur-sm flex flex-col p-2 shadow-sm will-change-transform`}
+                            style={{
+                                x, y, z,
+                                rotateX, rotateY, rotateZ,
+                                opacity,
+                                transformStyle: "preserve-3d"
+                            }}
+                        >
+                            <div className={`w-8 h-1 ${color}/50 rounded-full mb-2`}></div>
+                            <div className="w-full h-1 bg-white/10 rounded mb-1"></div>
+                            <div className="w-2/3 h-1 bg-white/10 rounded"></div>
+                        </motion.div>
+                    );
+                })}
+            </div>
         </div>
     );
 };
 
-// 6. Ask Probe: "Neural Pulse"
+// 6. Ask Probe: "Neural Query Network"
 const AskProbeVisual = ({ scrollProgress }: VisualProps) => {
-    const pulseScale = useTransform(scrollProgress, [0, 0.5], [0, 2]);
-    const pulseOpacity = useTransform(scrollProgress, [0, 0.5], [1, 0]);
-
     return (
-        <div className="w-full h-full flex items-center justify-center p-8 perspective-[1000px]">
-            <div className="relative flex flex-col items-center justify-center w-full h-full">
+        <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
+            <div className="relative w-full h-full flex items-center justify-center">
 
-                {/* Expanding Shockwaves */}
-                {[0, 1, 2].map(i => (
-                    <motion.div
-                        key={i}
-                        className="absolute w-32 h-32 rounded-full border border-purple-500/30"
-                        style={{
-                            scale: useTransform(scrollProgress, [0, 1], [0.5, 2 + i]),
-                            opacity: useTransform(scrollProgress, [0, 0.5 + (i * 0.1), 1], [0, 1, 0]),
-                            borderWidth: useTransform(scrollProgress, [0, 1], [2, 0])
-                        }}
-                    />
-                ))}
-
-                {/* The Core Brain */}
+                {/* Central AI Core */}
                 <motion.div
-                    className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 shadow-[0_0_60px_rgba(168,85,247,0.4)] relative z-20 flex items-center justify-center"
+                    className="relative z-20 w-16 h-16 bg-black border border-purple-500/50 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(168,85,247,0.3)]"
                     style={{
-                        scale: useTransform(scrollProgress, [0, 0.5, 1], [0.8, 1.2, 1]),
+                        scale: useTransform(scrollProgress, [0, 0.2, 0.4], [0, 1.2, 1]),
                     }}
                 >
-                    <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    <div className="absolute inset-0 rounded-full border border-purple-500/30 animate-ping"></div>
+                    <svg className="w-8 h-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                 </motion.div>
 
-                {/* Result Cards Popping Out */}
-                <div className="absolute w-full h-full pointer-events-none">
-                    {[0, 1, 2].map((i) => {
-                        const angle = (i / 3) * Math.PI * 2 - (Math.PI / 2);
-                        const distance = 140;
+                {/* Input Query Beam */}
+                <motion.div
+                    className="absolute h-1 bg-gradient-to-r from-transparent via-white to-purple-500 rounded-full"
+                    style={{
+                        width: "150px",
+                        right: "50%",
+                        top: "50%",
+                        x: useTransform(scrollProgress, [0, 0.3], [200, 0]),
+                        opacity: useTransform(scrollProgress, [0, 0.3, 0.4], [0, 1, 0]),
+                        scaleX: useTransform(scrollProgress, [0.3, 0.4], [1, 0])
+                    }}
+                />
 
-                        return (
-                            <motion.div
-                                key={i}
-                                className="absolute top-1/2 left-1/2 w-48 bg-zinc-900/90 border border-white/10 p-3 rounded-lg backdrop-blur-xl shadow-xl"
+                {/* Branching Results */}
+                {[0, 1, 2, 3].map((i) => {
+                    const angle = (i / 4) * Math.PI * 2 - (Math.PI / 4);
+                    const distance = 120;
+
+                    return (
+                        <motion.div
+                            key={i}
+                            className="absolute z-10"
+                            style={{
+                                x: useTransform(scrollProgress, [0.4, 0.8], [0, Math.cos(angle) * distance]),
+                                y: useTransform(scrollProgress, [0.4, 0.8], [0, Math.sin(angle) * distance]),
+                                opacity: useTransform(scrollProgress, [0.4, 0.6], [0, 1]),
+                                scale: useTransform(scrollProgress, [0.4, 0.8], [0, 1])
+                            }}
+                        >
+                            {/* Connection Line */}
+                            <div className="absolute top-1/2 left-1/2 w-[120px] h-px bg-gradient-to-r from-purple-500/50 to-transparent origin-left -z-10"
                                 style={{
-                                    x: useTransform(scrollProgress, [0.5, 1], [0, Math.cos(angle) * distance]),
-                                    y: useTransform(scrollProgress, [0.5, 1], [0, Math.sin(angle) * distance]),
-                                    opacity: useTransform(scrollProgress, [0.5, 0.8], [0, 1]),
-                                    scale: useTransform(scrollProgress, [0.5, 1], [0, 1]),
-                                    marginLeft: -96, // Half width to center
-                                    marginTop: -30   // Half height to center
+                                    transform: `rotate(${angle * (180 / Math.PI)}deg) translate(-100%, -50%)`, // Reverse direction to point to center
+                                    width: distance
                                 }}
-                            >
-                                <div className="h-2 w-24 bg-purple-500/20 rounded mb-2"></div>
-                                <div className="h-1.5 w-full bg-white/10 rounded mb-1"></div>
-                                <div className="h-1.5 w-2/3 bg-white/10 rounded"></div>
-                            </motion.div>
-                        );
-                    })}
-                </div>
+                            ></div>
+
+                            {/* Result Node */}
+                            <div className="w-40 bg-zinc-900/90 border border-white/10 p-3 rounded-lg backdrop-blur-md shadow-lg flex gap-3 items-start will-change-transform">
+                                <div className="w-8 h-8 rounded bg-zinc-800 flex-shrink-0 flex items-center justify-center border border-white/5">
+                                    <div className="w-4 h-4 rounded-full bg-purple-500/20"></div>
+                                </div>
+                                <div className="space-y-2 w-full">
+                                    <div className="h-1.5 w-3/4 bg-white/20 rounded"></div>
+                                    <div className="h-1.5 w-full bg-white/10 rounded"></div>
+                                    <div className="h-1.5 w-1/2 bg-white/10 rounded"></div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    );
+                })}
             </div>
         </div>
     );

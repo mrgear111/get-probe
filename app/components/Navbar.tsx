@@ -33,6 +33,7 @@ export default function Navbar() {
                 <div className="hidden md:flex items-center gap-6 mr-auto">
                     <Link href="#probe-for-developers" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Console</Link>
                     <Link href="#probe-spaces" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Probe Spaces</Link>
+                    <Link href="/documentation" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">DOCUMENTATION</Link>
                     <Link href="#memory-web" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Memory Web</Link>
                 </div>
 

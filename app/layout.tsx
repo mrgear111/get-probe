@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
+import ConditionalNavbar from "./components/ConditionalNavbar";
 
 import { ModalProvider } from "./context/ModalContext";
 import RegisterModal from "./components/RegisterModal";
@@ -69,7 +69,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ModalProvider>
-          <Navbar />
+          <ConditionalNavbar />
           {children}
           <RegisterModal />
         </ModalProvider>
