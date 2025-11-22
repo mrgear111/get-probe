@@ -428,6 +428,7 @@ const ParticleCard: React.FC<{
 
         return (
             <div
+                id="probe-for-developers"
                 ref={cardRef}
                 className={`${className} relative overflow-hidden`}
                 style={{ ...style, position: 'relative', overflow: 'hidden' }}
