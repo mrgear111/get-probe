@@ -6,6 +6,8 @@ import ProbeSpaces from "./components/ProbeSpaces";
 import SectionSeparator from "./components/SectionSeparator";
 import MagicBento from "./components/MagicBento";
 import Footer from "./components/Footer";
+import UniversalCommandBar from "./components/UniversalCommandBar";
+import DeveloperReveal from "./components/DeveloperReveal";
 
 export default function Home() {
   return (
@@ -13,8 +15,9 @@ export default function Home() {
       <Hero />
       <BentoGridFeatures />
       <MemoryWebShowcase />
-      <SectionSeparator />
+      <DeveloperReveal />
       <ProbeSpaces />
+      <UniversalCommandBar />
       <MagicBento
         textAutoHide={true}
         enableStars={true}

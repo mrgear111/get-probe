@@ -14,7 +14,7 @@ export default function Navbar() {
         <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#050505]/80 backdrop-blur-md font-mono">
             <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
                 {/* Logo */}
-                <div className="flex items-center gap-3 mr-8">
+                <Link href="/" className="flex items-center gap-3 mr-8 hover:opacity-80 transition-opacity">
                     <div className="w-12 h-12 flex items-center justify-center relative">
                         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-cyan-500/30 to-pink-500/30 blur-xl opacity-60 rounded-full"></div>
                         <Image
@@ -27,7 +27,7 @@ export default function Navbar() {
                         />
                     </div>
                     <span className="text-white font-bold text-lg tracking-tight">Probe</span>
-                </div>
+                </Link>
 
                 {/* Desktop Nav */}
                 <div className="hidden md:flex items-center gap-6 mr-auto">
