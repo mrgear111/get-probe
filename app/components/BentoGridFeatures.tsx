@@ -81,10 +81,10 @@ export default function BentoGridFeatures() {
 
                             <div className="flex items-center gap-8 mb-8 border border-white/10 px-6 py-3 bg-zinc-900/50">
                                 <div className="flex items-center gap-2 text-yellow-500 font-mono text-sm">
-                                     Still debugging in DevTools? Cute!
+                                    Still debugging in DevTools? Cute!
                                 </div>
                                 <div className="flex items-center gap-2 text-zinc-400 font-mono text-sm">
-                        
+
                                 </div>
                             </div>
 
