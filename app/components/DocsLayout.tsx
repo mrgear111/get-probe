@@ -3,10 +3,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChevronRight, Book, Code, Terminal, Activity, Cpu, Layers, Search } from 'lucide-react';
+import { ChevronRight, Book, Code, Terminal, Activity, Cpu, Layers, Search, Brain, Layout, Sparkles, Zap, Command, Share2 } from 'lucide-react';
+
+export interface TOCItem {
+    id: string;
+    label: string;
+    items?: TOCItem[];
+}
 
 interface DocsLayoutProps {
     children: React.ReactNode;
+    tableOfContents?: TOCItem[];
 }
 
 const SidebarItem = ({ icon: Icon, label, href, active = false, hasSubmenu = false }: { icon?: any, label: string, href: string, active?: boolean, hasSubmenu?: boolean }) => (
@@ -28,8 +35,32 @@ const SidebarSection = ({ title, children }: { title: string, children: React.Re
     </div>
 );
 
-export default function DocsLayout({ children }: DocsLayoutProps) {
+export default function DocsLayout({ children, tableOfContents = [] }: DocsLayoutProps) {
     const pathname = usePathname();
+    const [activeId, setActiveId] = React.useState<string>("");
+
+    React.useEffect(() => {
+        if (!tableOfContents || tableOfContents.length === 0) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveId(entry.target.id);
+                    }
+                });
+            },
+            { rootMargin: "-10% 0% -80% 0%" }
+        );
+
+        const ids = tableOfContents.flatMap(item => [item.id, ...(item.items?.map(sub => sub.id) || [])]);
+        ids.forEach((id) => {
+            const element = document.getElementById(id);
+            if (element) observer.observe(element);
+        });
+
+        return () => observer.disconnect();
+    }, [tableOfContents]);
 
     const isActive = (path: string) => {
         if (path === '/documentation' && (pathname === '/documentation' || pathname === '/documentation/')) {
@@ -39,7 +70,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
     };
 
     return (
-        <div className="min-h-screen bg-[#050505] text-zinc-300 font-sans selection:bg-purple-500/30 relative overflow-hidden">
+        <div className="min-h-screen bg-[#050505] text-zinc-300 font-sans selection:bg-purple-500/30 relative">
             {/* Background Elements */}
             <div className="fixed inset-0 z-0 pointer-events-none">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
@@ -101,15 +132,27 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
                     </SidebarSection>
 
                     <SidebarSection title="Core Concepts">
+                        <SidebarItem label="Memory Web" href="/documentation/memory-web" active={isActive('/documentation/memory-web')} icon={Brain} />
+                        <SidebarItem label="Probe Spaces" href="/documentation/probe-spaces" active={isActive('/documentation/probe-spaces')} icon={Layout} />
+                        <SidebarItem label="Contextual AI" href="/documentation/contextual-ai" active={isActive('/documentation/contextual-ai')} icon={Sparkles} />
+                        <SidebarItem label="Instant Workspace" href="/documentation/instant-workspace" active={isActive('/documentation/instant-workspace')} icon={Zap} />
+                        <SidebarItem label="Universal Command Bar" href="/documentation/command-bar" active={isActive('/documentation/command-bar')} icon={Command} />
+                        <SidebarItem label="Cross-Tab Intelligence" href="/documentation/cross-tab" active={isActive('/documentation/cross-tab')} icon={Share2} />
+                    </SidebarSection>
+
+                    <SidebarSection title="Probe AI">
+                        <SidebarItem label="Probe AI" href="/documentation/probeai" active={isActive('/documentation/probeai')} icon={Cpu} />
+                    </SidebarSection>
+
+                    <SidebarSection title="Developers">
                         <SidebarItem label="Probe Console" href="/documentation/probeconsole" active={isActive('/documentation/probeconsole')} icon={Terminal} />
                         <SidebarItem label="API Client" href="/documentation/apiclient" active={isActive('/documentation/apiclient')} icon={Code} />
                         <SidebarItem label="Network Analyzer" href="/documentation/network" active={isActive('/documentation/network')} icon={Activity} />
-                        <SidebarItem label="Probe AI" href="/documentation/probeai" active={isActive('/documentation/probeai')} icon={Cpu} />
+                        <SidebarItem label="Probe CLI" href="/documentation/cli" active={isActive('/documentation/cli')} icon={Terminal} />
                     </SidebarSection>
 
                     <SidebarSection title="Advanced">
                         <SidebarItem label="Workspaces" href="/documentation/workspace" active={isActive('/documentation/workspace')} icon={Layers} />
-                        <SidebarItem label="CLI Reference" href="/documentation/cli" active={isActive('/documentation/cli')} />
                         <SidebarItem label="Configuration" href="/documentation/config" active={isActive('/documentation/config')} />
                     </SidebarSection>
                 </aside>
@@ -120,15 +163,47 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
                 </main>
 
                 {/* Right Table of Contents */}
-                <aside className="hidden xl:block w-64 sticky top-14 h-[calc(100vh-3.5rem)] py-10 px-6">
-                    <h5 className="text-sm font-semibold text-white mb-4">On this page</h5>
-                    <ul className="space-y-2 text-sm text-zinc-500">
-                        <li><a href="#" className="hover:text-purple-400 transition-colors">Overview</a></li>
-                        <li><a href="#" className="hover:text-purple-400 transition-colors">Features</a></li>
-                        <li><a href="#" className="hover:text-purple-400 transition-colors">Guides</a></li>
-                        <li><a href="#" className="hover:text-purple-400 transition-colors">API Reference</a></li>
-                    </ul>
-                </aside>
+                {tableOfContents.length > 0 && (
+                    <aside className="hidden xl:block w-64 sticky top-14 h-[calc(100vh-3.5rem)] py-10 px-6 overflow-y-auto">
+                        <h5 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+                            On this page
+                        </h5>
+                        <div className="relative border-l border-white/10 ml-1">
+                            <ul className="space-y-1 text-sm">
+                                {tableOfContents.map((item) => (
+                                    <li key={item.id} className="relative">
+                                        <a
+                                            href={`#${item.id}`}
+                                            className={`block pl-4 py-1 -ml-px border-l-2 transition-all ${activeId === item.id
+                                                    ? 'border-purple-500 text-purple-400 font-medium bg-purple-500/5 rounded-r'
+                                                    : 'border-transparent text-zinc-500 hover:text-zinc-300 hover:border-zinc-700'
+                                                }`}
+                                        >
+                                            {item.label}
+                                        </a>
+                                        {item.items && item.items.length > 0 && (
+                                            <ul className="mt-1 space-y-1">
+                                                {item.items.map((subItem) => (
+                                                    <li key={subItem.id}>
+                                                        <a
+                                                            href={`#${subItem.id}`}
+                                                            className={`block pl-8 py-1 transition-colors ${activeId === subItem.id
+                                                                    ? 'text-purple-400 font-medium'
+                                                                    : 'text-zinc-600 hover:text-zinc-400'
+                                                                }`}
+                                                        >
+                                                            {subItem.label}
+                                                        </a>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </aside>
+                )}
             </div>
         </div>
     );
