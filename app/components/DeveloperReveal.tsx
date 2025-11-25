@@ -10,57 +10,93 @@ export default function DeveloperReveal() {
         target: containerRef,
         offset: ["start end", "end start"]
     });
+    const introOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
+    const introScale = useTransform(scrollYProgress, [0, 0.15], [0.8, 1]);
+    const introY = useTransform(scrollYProgress, [0, 1], [200, -200]);
 
-    const blueHueOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-    const blueHueScale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1.2]);
-
-    const textOpacity = useTransform(scrollYProgress, [0.1, 0.3, 0.7, 0.9], [0, 1, 1, 0]);
-    const textScale = useTransform(scrollYProgress, [0.1, 0.4], [0.8, 1]);
-    const textY = useTransform(scrollYProgress, [0.1, 0.4], [100, 0]);
-
-    const gridOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.3, 0.3, 0]);
+    const textOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
+    const textScale = useTransform(scrollYProgress, [0, 0.15], [0.8, 1]);
+    const textY = useTransform(scrollYProgress, [0, 1], [300, -300]);
 
     return (
-        <section ref={containerRef} className="h-[100vh] relative z-20 bg-[#050505] overflow-hidden">
-            <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
+        <section ref={containerRef} className="h-[150vh] relative z-20 bg-[#050505] overflow-hidden">
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <motion.div
+                    className="absolute inset-0 z-0"
+                >
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30"></div>
+                    {[...Array(40)].map((_, i) => (
+                        <div
+                            key={i}
+                            className="absolute bg-white rounded-full shadow-[0_0_2px_white]"
+                            style={{
+                                width: Math.random() * 3 + 1 + "px",
+                                height: Math.random() * 3 + 1 + "px",
+                                top: Math.random() * 100 + "%",
+                                left: Math.random() * 100 + "%",
+                                opacity: Math.random() * 0.7 + 0.3
+                            }}
+                        />
+                    ))}
+                </motion.div>
 
                 <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-blue-600/30 to-purple-900/40 blur-3xl"
-                    style={{
-                        opacity: blueHueOpacity,
-                        scale: blueHueScale,
-                    }}
-                />
+                    className="absolute inset-0 z-0"
+                    style={{ y: textY }}
+                >
+                    <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] animate-pulse-slow mix-blend-screen"></div>
+                    <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[100px] animate-pulse-slow mix-blend-screen" style={{ animationDelay: '2s' }}></div>
+                </motion.div>
 
                 <motion.div
-                    className="absolute inset-0 bg-[linear-gradient(to_right,rgba(56,189,248,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(56,189,248,0.1)_1px,transparent_1px)] bg-[size:40px_40px]"
-                    style={{
-                        opacity: gridOpacity,
-                    }}
-                />
+                    className="absolute inset-0 z-0"
+                    style={{ y: textY }}
+                >
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:120px_120px] [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"></div>
+                </motion.div>
+            </div>
 
-                <div className="relative z-10 text-center px-6 w-full max-w-7xl">
-                    <motion.div
-                        style={{
-                            opacity: textOpacity,
-                            scale: textScale,
-                            y: textY
-                        }}
-                        className="flex flex-col items-center gap-2"
-                    >
-                        <h3 className="text-sm md:text-base font-mono uppercase tracking-[0.5em] text-blue-200/60 mb-4">
+            <div className="relative top-100 h-screen overflow-hidden flex items-center justify-center">
+                <motion.div
+                    className="text-center px-4 relative z-10"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    viewport={{ once: true }}
+                >
+                    <h2 className="text-6xl md:text-[10rem] font-bold text-white tracking-tighter leading-none flex flex-col items-center">
+                        <motion.span
+                            className="text-4xl md:text-7xl mb-4 block"
+                            style={{
+                                opacity: introOpacity,
+                                scale: introScale,
+                                y: introY
+                            }}
+                        >
                             This is what we have got
-                        </h3>
+                        </motion.span>
 
-                        <div className="relative">
-                            <h2 className="text-6xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40 drop-shadow-[0_0_30px_rgba(56,189,248,0.3)]">
-                                FOR <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-cyan-400 to-purple-400">DEVELOPERS</span>
-                            </h2>
+                        <motion.div
+                            style={{
+                                opacity: textOpacity,
+                                scale: textScale,
+                                y: textY
+                            }}
+                            className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"
+                        >
+                            FOR DEVELOPERS
+                        </motion.div>
+                    </h2>
 
-                            <div className="absolute -bottom-8 left-0 right-0 h-12 bg-gradient-to-b from-cyan-500/20 to-transparent blur-xl opacity-50 transform scale-x-110"></div>
-                        </div>
-                    </motion.div>
-                </div>
+                    <motion.p
+                        className="text-xl md:text-2xl text-zinc-400 font-mono tracking-wide max-w-3xl mx-auto leading-relaxed mt-8"
+                        style={{
+                            y:textY
+                        }}
+                    >
+                        Built by developers, <span className="text-cyan-400">for developers</span>.
+                    </motion.p>
+                </motion.div>
             </div>
         </section>
     );
