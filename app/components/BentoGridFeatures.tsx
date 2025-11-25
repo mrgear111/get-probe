@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 export default function BentoGridFeatures() {
     return (
@@ -70,10 +71,12 @@ export default function BentoGridFeatures() {
                             {/* Logo */}
                             <div className="w-28 h-28 mb-6 relative flex items-center justify-center">
                                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-cyan-500/20 to-pink-500/20 blur-3xl opacity-50 rounded-full"></div>
-                                <img
+                                <Image
                                     src="/probe.png"
                                     alt="Probe Logo"
-                                    className="w-full h-full object-contain relative z-10"
+                                    fill
+                                    className="object-contain relative z-10"
+                                    sizes="(max-width: 768px) 100vw, 33vw"
                                 />
                             </div>
 

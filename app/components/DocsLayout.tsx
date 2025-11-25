@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ChevronRight, Book, Code, Terminal, Activity, Cpu, Layers, Search, Brain, Layout, Sparkles, Zap, Command, Share2 } from 'lucide-react';
 
@@ -85,10 +86,12 @@ export default function DocsLayout({ children, tableOfContents = [] }: DocsLayou
                         <Link href="/" className="flex items-center gap-2 font-bold text-white text-lg tracking-tight">
                             <div className="w-8 h-8 flex items-center justify-center relative">
                                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-cyan-500/30 to-pink-500/30 blur-xl opacity-60 rounded-full"></div>
-                                <img
+                                <Image
                                     src="/probe.png"
                                     alt="Probe Logo"
-                                    className="w-full h-full object-contain relative z-10"
+                                    fill
+                                    className="object-contain relative z-10"
+                                    sizes="32px"
                                 />
                             </div>
                             Probe <span className="text-zinc-500">Docs</span>
@@ -175,8 +178,8 @@ export default function DocsLayout({ children, tableOfContents = [] }: DocsLayou
                                         <a
                                             href={`#${item.id}`}
                                             className={`block pl-4 py-1 -ml-px border-l-2 transition-all ${activeId === item.id
-                                                    ? 'border-purple-500 text-purple-400 font-medium bg-purple-500/5 rounded-r'
-                                                    : 'border-transparent text-zinc-500 hover:text-zinc-300 hover:border-zinc-700'
+                                                ? 'border-purple-500 text-purple-400 font-medium bg-purple-500/5 rounded-r'
+                                                : 'border-transparent text-zinc-500 hover:text-zinc-300 hover:border-zinc-700'
                                                 }`}
                                         >
                                             {item.label}
@@ -188,8 +191,8 @@ export default function DocsLayout({ children, tableOfContents = [] }: DocsLayou
                                                         <a
                                                             href={`#${subItem.id}`}
                                                             className={`block pl-8 py-1 transition-colors ${activeId === subItem.id
-                                                                    ? 'text-purple-400 font-medium'
-                                                                    : 'text-zinc-600 hover:text-zinc-400'
+                                                                ? 'text-purple-400 font-medium'
+                                                                : 'text-zinc-600 hover:text-zinc-400'
                                                                 }`}
                                                         >
                                                             {subItem.label}

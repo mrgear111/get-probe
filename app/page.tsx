@@ -8,6 +8,7 @@ import MagicBento from "./components/MagicBento";
 import Footer from "./components/Footer";
 import UniversalCommandBar from "./components/UniversalCommandBar";
 import DeveloperReveal from "./components/DeveloperReveal";
+import JoinUsCTA from "./components/JoinUsCTA";
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ export default function Home() {
         particleCount={12}
         glowColor="132, 0, 255"
       />
+      <JoinUsCTA />
       <Footer />
     </main>
   );

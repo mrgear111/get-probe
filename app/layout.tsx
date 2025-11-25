@@ -5,6 +5,7 @@ import ConditionalNavbar from "./components/ConditionalNavbar";
 
 import { ModalProvider } from "./context/ModalContext";
 import RegisterModal from "./components/RegisterModal";
+import Analytics from "./components/Analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -72,6 +73,7 @@ export default function RootLayout({
           <ConditionalNavbar />
           {children}
           <RegisterModal />
+          <Analytics />
         </ModalProvider>
       </body>
     </html>

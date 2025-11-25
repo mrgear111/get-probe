@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import Image from 'next/image';
+import { Linkedin } from 'lucide-react';
 import './ProfileCard.css';
 
 interface ProfileCardProps {
@@ -19,6 +21,8 @@ interface ProfileCardProps {
     handle?: string;
     status?: string;
     contactText?: string;
+    email?: string;
+    linkedinUrl?: string;
     showUserInfo?: boolean;
     onContactClick?: () => void;
 }
@@ -56,6 +60,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     handle = 'javicodes',
     status = 'Online',
     contactText = 'Contact',
+    email,
+    linkedinUrl,
     showUserInfo = true,
     onContactClick
 }) => {
@@ -337,10 +343,12 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                         <div className="pc-shine" />
                         <div className="pc-glare" />
                         <div className="pc-content pc-avatar-content">
-                            <img
+                            <Image
                                 className="avatar"
                                 src={avatarUrl}
                                 alt={`${name || 'User'} avatar`}
+                                width={600}
+                                height={600}
                                 loading="lazy"
                                 onError={e => {
                                     const t = e.target as HTMLImageElement;
@@ -351,9 +359,11 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                                 <div className="pc-user-info">
                                     <div className="pc-user-details">
                                         <div className="pc-mini-avatar">
-                                            <img
+                                            <Image
                                                 src={miniAvatarUrl || avatarUrl}
                                                 alt={`${name || 'User'} mini avatar`}
+                                                width={40}
+                                                height={40}
                                                 loading="lazy"
                                                 onError={e => {
                                                     const t = e.target as HTMLImageElement;
@@ -367,15 +377,35 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                                             <div className="pc-status">{status}</div>
                                         </div>
                                     </div>
-                                    <button
-                                        className="pc-contact-btn"
-                                        onClick={handleContactClick}
-                                        style={{ pointerEvents: 'auto' }}
-                                        type="button"
-                                        aria-label={`Contact ${name || 'user'}`}
-                                    >
-                                        {contactText}
-                                    </button>
+                                    {email ? (
+                                        <div className="flex items-center gap-3">
+                                            <div className="text-xs text-zinc-400 font-mono select-all">
+                                                {email}
+                                            </div>
+                                            {linkedinUrl && (
+                                                <a
+                                                    href={linkedinUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="p-1.5 text-zinc-400 hover:text-white hover:bg-white/10 rounded-md transition-colors"
+                                                    aria-label="LinkedIn Profile"
+                                                    style={{ pointerEvents: 'auto' }}
+                                                >
+                                                    <Linkedin className="w-3.5 h-3.5" />
+                                                </a>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <button
+                                            className="pc-contact-btn"
+                                            onClick={handleContactClick}
+                                            style={{ pointerEvents: 'auto' }}
+                                            type="button"
+                                            aria-label={`Contact ${name || 'user'}`}
+                                        >
+                                            {contactText}
+                                        </button>
+                                    )}
                                 </div>
                             )}
                         </div>
