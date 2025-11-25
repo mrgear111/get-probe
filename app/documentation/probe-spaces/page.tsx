@@ -1,6 +1,12 @@
 import React from 'react';
 import DocsLayout from '../../components/DocsLayout';
 import { Users, MousePointer2, Share2, Globe } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Probe Spaces | Probe Documentation",
+    description: "Collaborate in real-time with Probe Spaces. Share tabs, scroll together, and debug like multiplayer browsing.",
+};
 
 export default function ProbeSpacesPage() {
     const toc = [

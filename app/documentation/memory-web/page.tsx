@@ -1,6 +1,12 @@
 import React from 'react';
 import DocsLayout from '../../components/DocsLayout';
 import { Brain, Search, Clock, Folder, MessageSquare, Shield } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Memory Web | Probe Documentation",
+    description: "Probe's Memory Web creates a smart, contextual browsing experience that remembers your intent and state locally.",
+};
 
 export default function MemoryWebPage() {
     const toc = [

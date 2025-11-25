@@ -1,6 +1,12 @@
 import React from 'react';
 import DocsLayout from '../../components/DocsLayout';
 import { Sparkles, Code, FileText, Image as ImageIcon } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Contextual AI | Probe Documentation",
+    description: "AI that lives inside your tabs. Explain code, summarize text, and find similar images directly in your browsing flow.",
+};
 
 export default function ContextualAIPage() {
     const toc = [

@@ -1,6 +1,12 @@
 import React from 'react';
 import DocsLayout from '../../components/DocsLayout';
 import { Command, Search, Zap, Mail, Music, Globe } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Universal Command Bar | Probe Documentation",
+    description: "Control your browser like a pro with Command+K. Search tabs, trigger extensions, and run shortcuts from one interface.",
+};
 
 export default function CommandBarPage() {
     const toc = [

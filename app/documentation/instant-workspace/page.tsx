@@ -1,6 +1,12 @@
 import React from 'react';
 import DocsLayout from '../../components/DocsLayout';
 import { Terminal, Layout, Save, Play } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Instant Workspace | Probe Documentation",
+    description: "Switch contexts instantly with /workspace. Probe adapts to your project by opening relevant tabs and tools automatically.",
+};
 
 export default function InstantWorkspacePage() {
     const toc = [
