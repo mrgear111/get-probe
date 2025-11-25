@@ -247,7 +247,7 @@ const SmartHistoryVisual = ({ scrollProgress }: VisualProps) => {
     );
 };
 
-// 5. Smart Collections: "Dynamic Stacking"
+// 5. Smart Collections: "Dynamic Stacking" - Optimized
 const SmartCollectionsVisual = ({ scrollProgress }: VisualProps) => {
     return (
         <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
@@ -269,28 +269,25 @@ const SmartCollectionsVisual = ({ scrollProgress }: VisualProps) => {
                     </motion.div>
                 ))}
 
-                {/* Stacking Cards */}
-                {[...Array(12)].map((_, i) => {
+                {/* Stacking Cards - Reduced count and simplified transforms */}
+                {[...Array(6)].map((_, i) => {
                     const stackIndex = i % 3; // 0, 1, 2 (Left, Center, Right)
-                    const cardInStack = Math.floor(i / 3); // 0, 1, 2, 3 (Bottom to Top)
+                    const cardInStack = Math.floor(i / 3); // 0, 1 (Bottom to Top)
 
-                    // Random initial positions for "Chaos" state
-                    const randomX = (Math.random() - 0.5) * 400;
-                    const randomY = (Math.random() - 0.5) * 400;
-                    const randomZ = (Math.random() - 0.5) * 400;
-                    const randomRotate = (Math.random() - 0.5) * 180;
+                    // Simplified random positions
+                    const randomX = (i % 2 === 0 ? 1 : -1) * (100 + Math.random() * 100);
+                    const randomY = (i % 2 === 0 ? -1 : 1) * (100 + Math.random() * 100);
+                    const randomRotate = (Math.random() - 0.5) * 90;
 
-                    // Target positions for "Order" state
+                    // Target positions
                     const targetX = (stackIndex - 1) * 100;
-                    const targetY = 50 - (cardInStack * 15); // Stack upwards
-                    const targetZ = cardInStack * 2; // Slight Z stacking
-                    const targetRotate = (Math.random() - 0.5) * 5; // Imperfect stack
+                    const targetY = 50 - (cardInStack * 15);
+                    const targetZ = cardInStack * 5;
+                    const targetRotate = (Math.random() - 0.5) * 5;
 
                     const x = useTransform(scrollProgress, [0, 0.8], [randomX, targetX]);
                     const y = useTransform(scrollProgress, [0, 0.8], [randomY, targetY]);
-                    const z = useTransform(scrollProgress, [0, 0.8], [randomZ, targetZ]);
-                    const rotateX = useTransform(scrollProgress, [0, 0.8], [randomRotate, 60]); // Tilt for 3D view
-                    const rotateY = useTransform(scrollProgress, [0, 0.8], [randomRotate, 0]);
+                    const z = useTransform(scrollProgress, [0, 0.8], [0, targetZ]);
                     const rotateZ = useTransform(scrollProgress, [0, 0.8], [randomRotate, targetRotate]);
                     const opacity = useTransform(scrollProgress, [0, 0.2], [0, 1]);
 
@@ -300,10 +297,10 @@ const SmartCollectionsVisual = ({ scrollProgress }: VisualProps) => {
                     return (
                         <motion.div
                             key={i}
-                            className={`absolute w-20 h-28 ${color}/10 border border-white/10 rounded-lg backdrop-blur-sm flex flex-col p-2 shadow-sm will-change-transform`}
+                            className={`absolute w-20 h-28 ${color}/20 border border-white/10 rounded-lg flex flex-col p-2 shadow-sm will-change-transform`}
                             style={{
                                 x, y, z,
-                                rotateX, rotateY, rotateZ,
+                                rotateZ,
                                 opacity,
                                 transformStyle: "preserve-3d"
                             }}
@@ -319,7 +316,7 @@ const SmartCollectionsVisual = ({ scrollProgress }: VisualProps) => {
     );
 };
 
-// 6. Ask Probe: "Neural Query Network"
+// 6. Ask Probe: "Neural Query Network" - Optimized
 const AskProbeVisual = ({ scrollProgress }: VisualProps) => {
     return (
         <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
@@ -332,7 +329,7 @@ const AskProbeVisual = ({ scrollProgress }: VisualProps) => {
                         scale: useTransform(scrollProgress, [0, 0.2, 0.4], [0, 1.2, 1]),
                     }}
                 >
-                    <div className="absolute inset-0 rounded-full border border-purple-500/30 animate-ping"></div>
+                    <div className="absolute inset-0 rounded-full border border-purple-500/30 animate-pulse"></div>
                     <svg className="w-8 h-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
@@ -345,16 +342,16 @@ const AskProbeVisual = ({ scrollProgress }: VisualProps) => {
                         width: "150px",
                         right: "50%",
                         top: "50%",
-                        x: useTransform(scrollProgress, [0, 0.3], [200, 0]),
+                        x: useTransform(scrollProgress, [0, 0.3], [100, 0]),
                         opacity: useTransform(scrollProgress, [0, 0.3, 0.4], [0, 1, 0]),
                         scaleX: useTransform(scrollProgress, [0.3, 0.4], [1, 0])
                     }}
                 />
 
-                {/* Branching Results */}
-                {[0, 1, 2, 3].map((i) => {
-                    const angle = (i / 4) * Math.PI * 2 - (Math.PI / 4);
-                    const distance = 120;
+                {/* Branching Results - Simplified */}
+                {[0, 1, 2].map((i) => {
+                    const angle = (i / 3) * Math.PI - (Math.PI / 2); // Spread in a semi-circle
+                    const distance = 140;
 
                     return (
                         <motion.div
@@ -364,26 +361,23 @@ const AskProbeVisual = ({ scrollProgress }: VisualProps) => {
                                 x: useTransform(scrollProgress, [0.4, 0.8], [0, Math.cos(angle) * distance]),
                                 y: useTransform(scrollProgress, [0.4, 0.8], [0, Math.sin(angle) * distance]),
                                 opacity: useTransform(scrollProgress, [0.4, 0.6], [0, 1]),
-                                scale: useTransform(scrollProgress, [0.4, 0.8], [0, 1])
+                                scale: useTransform(scrollProgress, [0.4, 0.8], [0.5, 1])
                             }}
                         >
                             {/* Connection Line */}
-                            <div className="absolute top-1/2 left-1/2 w-[120px] h-px bg-gradient-to-r from-purple-500/50 to-transparent origin-left -z-10"
+                            <div className="absolute top-1/2 left-1/2 w-[140px] h-px bg-gradient-to-r from-purple-500/30 to-transparent origin-left -z-10"
                                 style={{
-                                    transform: `rotate(${angle * (180 / Math.PI)}deg) translate(-100%, -50%)`, // Reverse direction to point to center
+                                    transform: `rotate(${angle * (180 / Math.PI)}deg) translate(-100%, -50%)`,
                                     width: distance
                                 }}
                             ></div>
 
-                            {/* Result Node */}
-                            <div className="w-40 bg-zinc-900/90 border border-white/10 p-3 rounded-lg backdrop-blur-md shadow-lg flex gap-3 items-start will-change-transform">
-                                <div className="w-8 h-8 rounded bg-zinc-800 flex-shrink-0 flex items-center justify-center border border-white/5">
-                                    <div className="w-4 h-4 rounded-full bg-purple-500/20"></div>
-                                </div>
-                                <div className="space-y-2 w-full">
-                                    <div className="h-1.5 w-3/4 bg-white/20 rounded"></div>
-                                    <div className="h-1.5 w-full bg-white/10 rounded"></div>
-                                    <div className="h-1.5 w-1/2 bg-white/10 rounded"></div>
+                            {/* Result Node - Simplified DOM */}
+                            <div className="w-32 bg-zinc-900 border border-white/10 p-2 rounded-lg shadow-lg flex gap-2 items-center">
+                                <div className="w-6 h-6 rounded bg-zinc-800 flex-shrink-0"></div>
+                                <div className="space-y-1 w-full">
+                                    <div className="h-1 w-3/4 bg-white/20 rounded"></div>
+                                    <div className="h-1 w-1/2 bg-white/10 rounded"></div>
                                 </div>
                             </div>
                         </motion.div>
