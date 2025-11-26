@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 
 export default function DeveloperReveal() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [stars, setStars] = useState<Array<{ width: number; height: number; top: number; left: number; opacity: number }>>([]);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start end", "end start"]
@@ -18,6 +20,18 @@ export default function DeveloperReveal() {
     const textScale = useTransform(scrollYProgress, [0, 0.15], [0.8, 1]);
     const textY = useTransform(scrollYProgress, [0, 1], [300, -300]);
 
+    // Generate random star positions on client-side only to avoid hydration errors
+    useEffect(() => {
+        const generatedStars = [...Array(40)].map(() => ({
+            width: Math.random() * 3 + 1,
+            height: Math.random() * 3 + 1,
+            top: Math.random() * 100,
+            left: Math.random() * 100,
+            opacity: Math.random() * 0.7 + 0.3
+        }));
+        setStars(generatedStars);
+    }, []);
+
     return (
         <section ref={containerRef} className="h-[150vh] relative z-20 bg-[#050505] overflow-hidden">
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -25,16 +39,16 @@ export default function DeveloperReveal() {
                     className="absolute inset-0 z-0"
                 >
                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30"></div>
-                    {[...Array(40)].map((_, i) => (
+                    {stars.map((star, i) => (
                         <div
                             key={i}
                             className="absolute bg-white rounded-full shadow-[0_0_2px_white]"
                             style={{
-                                width: Math.random() * 3 + 1 + "px",
-                                height: Math.random() * 3 + 1 + "px",
-                                top: Math.random() * 100 + "%",
-                                left: Math.random() * 100 + "%",
-                                opacity: Math.random() * 0.7 + 0.3
+                                width: star.width + "px",
+                                height: star.height + "px",
+                                top: star.top + "%",
+                                left: star.left + "%",
+                                opacity: star.opacity
                             }}
                         />
                     ))}
@@ -91,7 +105,7 @@ export default function DeveloperReveal() {
                     <motion.p
                         className="text-xl md:text-2xl text-zinc-400 font-mono tracking-wide max-w-3xl mx-auto leading-relaxed mt-8"
                         style={{
-                            y:textY
+                            y: textY
                         }}
                     >
                         Built by developers, <span className="text-cyan-400">for developers</span>.

@@ -129,6 +129,12 @@ const ContextAwareVisual = ({ scrollProgress }: VisualProps) => {
 // 3. Cross-Tab Intelligence: "Synaptic Web"
 const CrossTabVisual = ({ scrollProgress }: VisualProps) => {
     const centerScale = useTransform(scrollProgress, [0, 0.5, 1], [0.8, 1.2, 0.8]);
+    const [animationDurations, setAnimationDurations] = useState<number[]>([]);
+
+    // Generate random animation durations on client-side only
+    useEffect(() => {
+        setAnimationDurations([0, 1, 2, 3, 4, 5].map(() => 1 + Math.random()));
+    }, []);
 
     return (
         <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
@@ -164,27 +170,29 @@ const CrossTabVisual = ({ scrollProgress }: VisualProps) => {
                             </div>
 
                             {/* Data Packet Traveling Line */}
-                            <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] -z-10 pointer-events-none overflow-visible" style={{ mixBlendMode: 'screen' }}>
-                                {/* Base Line */}
-                                <motion.line
-                                    x1="50%" y1="50%"
-                                    x2={150 - x} y2={150 - y}
-                                    stroke="rgba(34,211,238,0.2)"
-                                    strokeWidth="1"
-                                />
-                                {/* Moving Packet */}
-                                <motion.circle
-                                    r="2"
-                                    fill="white"
-                                // Removed expensive SVG filter
-                                >
-                                    <animateMotion
-                                        dur={`${1 + Math.random()}s`}
-                                        repeatCount="indefinite"
-                                        path={`M150,150 L${150 - x},${150 - y}`}
+                            {animationDurations.length > 0 && (
+                                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] -z-10 pointer-events-none overflow-visible" style={{ mixBlendMode: 'screen' }}>
+                                    {/* Base Line */}
+                                    <motion.line
+                                        x1="50%" y1="50%"
+                                        x2={150 - x} y2={150 - y}
+                                        stroke="rgba(34,211,238,0.2)"
+                                        strokeWidth="1"
                                     />
-                                </motion.circle>
-                            </svg>
+                                    {/* Moving Packet */}
+                                    <motion.circle
+                                        r="2"
+                                        fill="white"
+                                    // Removed expensive SVG filter
+                                    >
+                                        <animateMotion
+                                            dur={`${animationDurations[i]}s`}
+                                            repeatCount="indefinite"
+                                            path={`M150,150 L${150 - x},${150 - y}`}
+                                        />
+                                    </motion.circle>
+                                </svg>
+                            )}
                         </motion.div>
                     );
                 })}
@@ -513,6 +521,7 @@ const ActiveVisual = ({ feature, targetRef }: { feature: any, targetRef: React.R
 
 export default function MemoryWebShowcase() {
     const [focusedIndex, setFocusedIndex] = useState(0);
+    const [stars, setStars] = useState<Array<{ width: number; height: number; top: number; left: number; opacity: number }>>([]);
     const sectionRefs = useRef<React.RefObject<HTMLDivElement | null>[]>([]);
     const containerRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
@@ -525,6 +534,18 @@ export default function MemoryWebShowcase() {
         sectionRefs.current = features.map(() => React.createRef<HTMLDivElement | null>());
     }
 
+    // Generate random star positions on client-side only to avoid hydration errors
+    useEffect(() => {
+        const generatedStars = [...Array(40)].map(() => ({
+            width: Math.random() * 3 + 1,
+            height: Math.random() * 3 + 1,
+            top: Math.random() * 100,
+            left: Math.random() * 100,
+            opacity: Math.random() * 0.7 + 0.3
+        }));
+        setStars(generatedStars);
+    }, []);
+
     return (
         <section ref={containerRef} id="memory-web" className="bg-[#050505] pt-32 pb-0 flex justify-center relative">
 
@@ -536,16 +557,16 @@ export default function MemoryWebShowcase() {
                     style={{ y: useTransform(scrollYProgress, [0, 1], [0, 300]) }}
                 >
                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30"></div>
-                    {[...Array(40)].map((_, i) => (
+                    {stars.map((star, i) => (
                         <div
                             key={i}
                             className="absolute bg-white rounded-full shadow-[0_0_2px_white]"
                             style={{
-                                width: Math.random() * 3 + 1 + "px",
-                                height: Math.random() * 3 + 1 + "px",
-                                top: Math.random() * 100 + "%",
-                                left: Math.random() * 100 + "%",
-                                opacity: Math.random() * 0.7 + 0.3
+                                width: star.width + "px",
+                                height: star.height + "px",
+                                top: star.top + "%",
+                                left: star.left + "%",
+                                opacity: star.opacity
                             }}
                         />
                     ))}
