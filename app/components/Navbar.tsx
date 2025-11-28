@@ -32,9 +32,9 @@ export default function Navbar() {
                 {/* Desktop Nav */}
                 <div className="hidden md:flex items-center gap-6 mr-auto">
                     <Link href="/#memory-web" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Memory Web</Link>
-                    <Link href="/#probe-spaces" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Probe Spaces</Link>
+                    {/* <Link href="/#probe-spaces" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Probe Spaces</Link> */}
                     <Link href="/#probe-for-developers" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Console</Link>
-                    <Link href="/documentation" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">DOCUMENTATION</Link>
+                    {/* <Link href="/documentation" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">DOCUMENTATION</Link> */}
                     <Link href="/architects" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">ARCHITECTS</Link>
                 </div>
 
@@ -104,7 +104,7 @@ export default function Navbar() {
                             <Link href="/#memory-web" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Memory Web</Link>
                             <Link href="/#probe-spaces" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Probe Spaces</Link>
                             <Link href="/#probe-for-developers" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Console</Link>
-                            <Link href="/documentation" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">DOCUMENTATION</Link>
+                            {/* <Link href="/documentation" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">DOCUMENTATION</Link> */}
                             <Link href="/architects" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Architects</Link>
                         </div>
                         <div className="mt-auto">
