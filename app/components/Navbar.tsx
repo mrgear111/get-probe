@@ -36,6 +36,7 @@ export default function Navbar() {
                     <Link href="/#probe-for-developers" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide" suppressHydrationWarning>Console</Link>
                     {/* <Link href="/documentation" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">DOCUMENTATION</Link> */}
                     <Link href="/architects" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">ARCHITECTS</Link>
+                    <Link href="/join" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">Join Us</Link>
                 </div>
 
                 {/* Right Actions */}
@@ -106,6 +107,7 @@ export default function Navbar() {
                             <Link href="/#probe-for-developers" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Console</Link>
                             {/* <Link href="/documentation" className="text-xs text-zinc-400 hover:text-white transition-colors uppercase tracking-wide">DOCUMENTATION</Link> */}
                             <Link href="/architects" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Architects</Link>
+                            <Link href="/join" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white uppercase">Join Us</Link>
                         </div>
                         <div className="mt-auto">
                             <button
